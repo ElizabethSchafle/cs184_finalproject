@@ -1,3 +1,3 @@
-# Assignment 2: MeshEdit
+Final Project: Mesh Simplification
 
-[spec](https://cs184.org/article/11)
+Brian Ho, Elizabeth Schafle, Jose Chavez
