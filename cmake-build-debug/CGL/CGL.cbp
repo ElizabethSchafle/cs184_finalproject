@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="CGL"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;CMake Files\CGL\;CMake Files\CGL\deps\;CMake Files\CGL\deps\glew\;CMake Files\CGL\deps\glfw\;CMake Files\CGL\deps\glfw\src\;CMake Files\CGL\src\;CMake Files\src\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glew">
+				<Option output="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/libglew.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glew/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 glew"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glew/fast">
+				<Option output="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/libglew.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glew/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 glew/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glew/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="uninstall">
+				<Option working_dir="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/Makefile&quot;  VERBOSE=1 uninstall"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw">
+				<Option output="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src"/>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 glfw"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw/fast">
+				<Option output="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add option="-D_GLFW_USE_CONFIG_H"/>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src"/>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 glfw/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CGL">
+				<Option output="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/libCGL.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/include"/>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glew/include"/>
+					<Add directory="/Library/Frameworks/Mono.framework/Headers"/>
+					<Add directory="/usr/local/include/freetype2"/>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 CGL"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CGL/fast">
+				<Option output="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/libCGL.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/include"/>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glew/include"/>
+					<Add directory="/Library/Frameworks/Mono.framework/Headers"/>
+					<Add directory="/usr/local/include/freetype2"/>
+					<Add directory="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 CGL/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glew/src/glew.c">
+			<Option target="glew"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glew/src/glewinfo.c">
+			<Option target="glew"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glew/src/visualinfo.c">
+			<Option target="glew"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/include/GLFW/glfw3.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/include/GLFW/glfw3native.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/cocoa_init.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/cocoa_monitor.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/cocoa_platform.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/cocoa_window.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/input.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/internal.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/iokit_joystick.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/iokit_joystick.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/mach_time.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/nsgl_context.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/nsgl_context.m">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/posix_tls.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/posix_tls.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/CGL.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/base64.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/base64.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/color.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/color.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/complex.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/complex.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/matrix3x3.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/matrix3x3.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/matrix4x4.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/matrix4x4.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/osdfont.c">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/osdtext.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/osdtext.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/quaternion.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/quaternion.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/renderer.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/tinyxml2.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/tinyxml2.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/vector2D.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/vector2D.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/vector3D.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/vector3D.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/vector4D.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/vector4D.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/viewer.cpp">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/viewer.h">
+			<Option target="CGL"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/cmake-build-debug/CGL/deps/glfw/src/glfw_config.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glew/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glew\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glew/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glew\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/glfw_config.h.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/deps/glfw/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\deps\glfw\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/CGL/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGL\src\"/>
+		</Unit>
+		<Unit filename="/Users/JoseChavez/Desktop/cs184/proj2-meshedit-jchavezberkeley/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
