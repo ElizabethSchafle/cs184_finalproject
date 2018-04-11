@@ -176,9 +176,6 @@ namespace CGL
     return e0;
   }
 
-
-
-
   VertexIter HalfedgeMesh::splitEdge( EdgeIter e0 )
   {
     // TODO Part 5.
@@ -400,6 +397,7 @@ namespace CGL
     std::vector<VertexIter> incidentVertices = std::vector<VertexIter>();
     std::set<HalfedgeIter> incidentHalfEdges = std::set<HalfedgeIter>();
     std::set<EdgeIter> incidentEdges = std::set<EdgeIter>();
+    std::vector<FaceIter> newFaces = std::vector<FaceIter>();
 
     int deg = v->degree();
     int count = 0;
@@ -431,23 +429,28 @@ namespace CGL
       deleteEdge(e);
     }
 
+    for(int i = 0; i < deg - 2; i++) {
+      newFaces.push_back(newFace());
+    }
+
     deleteVertex(v);
     int vertNum = 0;
-    int totalVerts = incidentVertices.size();
+    int faceNum = 0;
     for(int i = 0; i < deg/2 - 1; i ++) {
       if(vertNum + 2 < incidentVertices.size()) {
         HalfedgeIter h1 = newHalfedge();
         HalfedgeIter h2 = newHalfedge();
         EdgeIter e = newEdge();
         e->halfedge() = h1;
-        e->newPosition = incidentVertices[vertNum]->position;
-        FaceIter f = newFace();
-        f->halfedge() = h1;
-        h1->setNeighbors(incidentVertices[vertNum + 2]->halfedge(), h2, incidentVertices[vertNum], e, f);
+        e->newPosition = incidentVertices[vertNum + 2]->position;
+        newFaces[faceNum]->halfedge() = h2;
+        newFaces[faceNum + 1]->halfedge() = h1;
+        h1->setNeighbors(incidentVertices[vertNum + 1]->halfedge()->twin(), h2, incidentVertices[vertNum], e, newFaces[faceNum + 1]);
         h2->setNeighbors(incidentVertices[vertNum]->halfedge(),
-                         h1, incidentVertices[vertNum + 2], e, incidentVertices[vertNum]->halfedge()->face());
+                         h1, incidentVertices[vertNum + 2], e, newFaces[faceNum]);
         incidentVertices[vertNum]->halfedge() = h1;
         incidentVertices[vertNum + 2]->halfedge() = h2;
+        faceNum += 1;
       }
       if(vertNum + 3 < incidentVertices.size()) {
         HalfedgeIter h3 = newHalfedge();
@@ -455,13 +458,10 @@ namespace CGL
         EdgeIter e1 = newEdge();
         e1->halfedge() = h3;
         e1->newPosition = incidentVertices[vertNum]->position;
-        FaceIter f1 = newFace();
-        f1->halfedge() = h3;
-        incidentVertices[vertNum + 3]->halfedge() = h4;
-        h3->setNeighbors(incidentVertices[vertNum + 3]->halfedge(), h4, incidentVertices[vertNum], e1, f1);
+        h3->setNeighbors(incidentVertices[vertNum + 2]->halfedge()->twin(), h4, incidentVertices[vertNum], e1, newFaces[faceNum + 1]);
         h4->setNeighbors(incidentVertices[vertNum]->halfedge(),
-                         h3, incidentVertices[vertNum + 3], e1, incidentVertices[vertNum]->halfedge()->face());
-
+                         h3, incidentVertices[vertNum + 3], e1, newFaces[faceNum]);
+        faceNum += 1;
       }
       vertNum += 3;
     }
