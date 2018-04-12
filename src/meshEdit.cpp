@@ -250,6 +250,14 @@ namespace CGL {
           case 'S':
           splitSelectedEdge();
           break;
+          case 'v':
+          case 'V':
+          deleteSelectedVertex();
+          break;
+          case 'c':
+          case 'C':
+          collapseEdge();
+          break;
           case 'n':
           case 'N':
           selectNextHalfedge();
@@ -1490,6 +1498,25 @@ namespace CGL {
                       Edge* e = selectedFeature.element->getEdge();
                       if( e == NULL ) { cerr << "Must select an edge." << endl; return; }
                       selectedFeature.node->mesh.splitEdge( e->halfedge()->edge() );
+
+                      // Since the mesh may have changed, the selected and
+                      // hovered features may no longer point to valid elements.
+                      selectedFeature.invalidate();
+                      hoveredFeature.invalidate();
+                    }
+                    void MeshEdit ::deleteSelectedVertex( void ) {
+                      Vertex* v = selectedFeature.element->getVertex();
+                      if (v == NULL) { cerr << "Must select a vertex." << endl; return; }
+                      selectedFeature.node->mesh.deleteMeshVertex(v->halfedge()->vertex());
+                      // Since the mesh may have changed, the selected and
+                      // hovered features may no longer point to valid elements.
+                      selectedFeature.invalidate();
+                      hoveredFeature.invalidate();
+                    }
+                    void MeshEdit :: collapseEdge( void ) {
+                      Edge* e = selectedFeature.element->getEdge();
+                      if(e == NULL) { cerr << "Must select an edge." << endl; return; }
+                      selectedFeature.node->mesh.collapseEdge(e->halfedge()->edge(), selectedFeature.node->mesh);
 
                       // Since the mesh may have changed, the selected and
                       // hovered features may no longer point to valid elements.

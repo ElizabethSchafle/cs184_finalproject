@@ -622,15 +622,18 @@ namespace CGL
          void deleteFace     (     FaceIter f ) {      faces.erase( f ); }
          void deleteBoundary (     FaceIter b ) { boundaries.erase( b ); }
 
+
          /* For a triangle mesh, you will implement the following
           * basic edge operations.  (Can you generalize to other
           * polygonal meshes?)
           */
-           EdgeIter       flipEdge( EdgeIter e ); ///< flip an edge, returning a pointer to the flipped edge
+         EdgeIter       flipEdge( EdgeIter e ); ///< flip an edge, returning a pointer to the flipped edge
          VertexIter      splitEdge( EdgeIter e ); ///< split an edge, returning a pointer to the inserted midpoint vertex; the halfedge of this vertex should refer to one of the edges in the original mesh
+         void        deleteMeshVertex( VertexIter v);  ///< delete a vertex and its edges
+         std::set<HalfedgeIter> findIncidentEdges( VertexIter v); ///<return a list of incident edges
+         void         collapseEdge(EdgeIter e0, HalfedgeMesh& mesh); ///< collapse a specified edge
 
-
-         void check_for(HalfedgeIter h) {
+     void check_for(HalfedgeIter h) {
           for (HalfedgeIter he = halfedgesBegin(); he != halfedgesEnd(); he++) {
             if (he == h)
               cout << "Halfedge " << elementAddress(h) << " found in list" << endl;
