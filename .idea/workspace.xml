@@ -17,9 +17,10 @@
   <component name="ChangeListManager">
     <list default="true" id="fea4b6c8-de08-4b28-98d1-0b9bd12212c3" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/build/meshedit" afterPath="$PROJECT_DIR$/build/meshedit" />
-      <change beforePath="$PROJECT_DIR$/build/src/CMakeFiles/meshedit.dir/student_code.cpp.o" afterPath="$PROJECT_DIR$/build/src/CMakeFiles/meshedit.dir/student_code.cpp.o" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/meshedit" afterPath="$PROJECT_DIR$/cmake-build-debug/meshedit" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/halfEdgeMesh.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/halfEdgeMesh.cpp.o" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/main.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/main.cpp.o" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/meshEdit.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/meshEdit.cpp.o" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/student_code.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/student_code.cpp.o" />
       <change beforePath="$PROJECT_DIR$/src/student_code.cpp" afterPath="$PROJECT_DIR$/src/student_code.cpp" />
     </list>
@@ -37,8 +38,8 @@
       <file leaf-file-name="student_code.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/student_code.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="378" column="0" lean-forward="true" selection-start-line="378" selection-start-column="0" selection-end-line="378" selection-end-column="0" />
+            <state relative-caret-position="1748">
+              <caret line="583" column="5" lean-forward="false" selection-start-line="583" selection-start-column="5" selection-end-line="583" selection-end-column="5" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
                 <element signature="e#101#742#0" expanded="false" />
@@ -47,7 +48,8 @@
                 <element signature="e#2854#3499#0" expanded="false" />
                 <element signature="e#3503#5274#0" expanded="false" />
                 <element signature="e#5278#8247#0" expanded="false" />
-                <element signature="e#8251#11753#0" expanded="false" />
+                <element signature="e#8252#10351#0" expanded="false" />
+                <element signature="e#10357#13859#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -218,12 +220,12 @@
       <option name="presentableId" value="Default" />
       <updated>1523221991830</updated>
       <workItem from="1523221993856" duration="592000" />
-      <workItem from="1523311721365" duration="24988000" />
+      <workItem from="1523311721365" duration="25070000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25580000" />
+    <option name="totallyTimeSpent" value="25662000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="35" y="23" width="1414" height="803" extended-state="0" />
@@ -294,7 +296,8 @@
             <element signature="e#2854#3499#0" expanded="false" />
             <element signature="e#3503#5274#0" expanded="false" />
             <element signature="e#5278#8247#0" expanded="false" />
-            <element signature="e#8251#11753#0" expanded="false" />
+            <element signature="e#8252#10351#0" expanded="false" />
+            <element signature="e#10357#13859#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -415,8 +418,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/student_code.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="378" column="0" lean-forward="true" selection-start-line="378" selection-start-column="0" selection-end-line="378" selection-end-column="0" />
+        <state relative-caret-position="1748">
+          <caret line="583" column="5" lean-forward="false" selection-start-line="583" selection-start-column="5" selection-end-line="583" selection-end-column="5" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
             <element signature="e#101#742#0" expanded="false" />
@@ -425,7 +428,8 @@
             <element signature="e#2854#3499#0" expanded="false" />
             <element signature="e#3503#5274#0" expanded="false" />
             <element signature="e#5278#8247#0" expanded="false" />
-            <element signature="e#8251#11753#0" expanded="false" />
+            <element signature="e#8252#10351#0" expanded="false" />
+            <element signature="e#10357#13859#0" expanded="false" />
           </folding>
         </state>
       </provider>

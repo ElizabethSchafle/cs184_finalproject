@@ -475,5 +475,112 @@ namespace CGL
   }
 
 
+    std::set<HalfedgeIter> HalfedgeMesh::findIncidentEdges(VertexIter v) {
+      HalfedgeIter h = v->halfedge();
+      std::set<HalfedgeIter> incidentHalfEdges = std::set<HalfedgeIter>();
+      do
+      {
+        incidentHalfEdges.insert(h);
+        h = h->twin()->next();
+      }
+      while(h != v->halfedge());
+      return incidentHalfEdges;
+    }
+
+
+    /** Deletes vertex v and its incident edges**/
+    void HalfedgeMesh::deleteMeshVertex(VertexIter v) {
+      HalfedgeIter original = v->halfedge();
+      HalfedgeIter curr = original->next();
+      std::vector<VertexIter> incidentVertices = std::vector<VertexIter>();
+      std::set<HalfedgeIter> incidentHalfEdges = std::set<HalfedgeIter>();
+      std::set<EdgeIter> incidentEdges = std::set<EdgeIter>();
+      std::vector<FaceIter> incidentFaces = std::vector<FaceIter>();
+      int deg = v->degree();
+      int count = 0;
+
+      //collect incident vertices for later, and delete the inner faces
+      while(count < deg) {
+        incidentVertices.push_back(curr->vertex());
+
+        if(incidentFaces.size() >= deg - 2) {
+          deleteFace(curr->face());
+        } else if (std::find(incidentFaces.begin(), incidentFaces.end(), curr->face()) == incidentFaces.end()){
+          incidentFaces.push_back(curr->face());
+        }
+        curr = curr->next()->twin()->next();
+        count++;
+      }
+
+
+      // find the incident half edges, as well as the corresponding edges, and delete the half edges, dont delete edges yet,
+      // will cause seg fault.
+      incidentHalfEdges = findIncidentEdges(v);
+      for(HalfedgeIter h : incidentHalfEdges) {
+        h->vertex()->halfedge() = h->next()->next()->twin();
+        incidentEdges.insert(h->edge());
+        deleteHalfedge(h);
+      }
+
+      // Delete the original edges.
+      for (EdgeIter e: incidentEdges) {
+        deleteEdge(e);
+      }
+
+
+
+      deleteVertex(v);
+      std::vector<HalfedgeIter> newEdges = std::vector<HalfedgeIter>();
+      int vertNum = 0;
+      int faceNum = 0;
+      for(int i = 0; i < deg/2 - 1; i ++) {
+        if(vertNum + 2 < incidentVertices.size() && i == 0) {
+          HalfedgeIter h1 = newHalfedge();
+          HalfedgeIter h2 = newHalfedge();
+          EdgeIter e = newEdge();
+
+          e->halfedge() = h1;
+          e->newPosition = incidentVertices[vertNum + 2]->position;
+          incidentFaces[faceNum]->halfedge() = h2;
+          incidentFaces[faceNum + 1]->halfedge() = h1;
+
+
+          h1->setNeighbors(incidentVertices[vertNum + 2]->halfedge(), h2, incidentVertices[vertNum], e, incidentFaces[faceNum + 1]);
+          h2->setNeighbors(incidentVertices[vertNum]->halfedge(),
+                           h1, incidentVertices[vertNum + 2], e, incidentFaces[faceNum]);
+
+          newEdges.push_back(h1);
+          newEdges.push_back(h2);
+          incidentVertices[vertNum]->halfedge() = h1;
+          incidentVertices[vertNum + 2]->halfedge() = h2;
+          faceNum += 1;
+        }
+//      if(vertNum + 3 < incidentVertices.size() && i == 0) {
+//        HalfedgeIter h3 = newHalfedge();
+//        HalfedgeIter h4 = newHalfedge();
+//        EdgeIter e1 = newEdge();
+//        e1->halfedge() = h3;
+//
+//        incidentFaces[faceNum]->halfedge() = h3;
+//        incidentFaces[faceNum + 1]->halfedge() = h4;
+//
+//        e1->newPosition = incidentVertices[vertNum]->position;
+//        h3->setNeighbors(incidentVertices[vertNum]->halfedge(),
+//                         h4, incidentVertices[vertNum + 3], e1, incidentFaces[faceNum]);
+//        h4->setNeighbors(incidentVertices[vertNum + 3]->halfedge(), h3, incidentVertices[vertNum], e1, incidentFaces[faceNum + 1]);
+//
+//        newEdges.push_back(h3);
+//        newEdges.push_back(h4);
+//        faceNum += 1;
+//      }
+        vertNum += 3;
+      }
+
+
+      // set the ones that point to them as next
+      for(HalfedgeIter he : newEdges) {
+        he->next()->next()->next() = he;
+      }
+    }
 
 }
