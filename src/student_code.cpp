@@ -291,6 +291,104 @@ namespace CGL
     return e0->halfedge()->vertex();
   }
 
+
+  void HalfedgeMesh::collapseEdge(EdgeIter e0, HalfedgeMesh& mesh)
+  {
+    // TODO Brian Ho.
+    // TODO This method will delete the given edge and combine the endpoints.
+
+    // Halfedges
+    HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
+    h0 = e0->halfedge();
+    h1 = h0->twin();
+    h2 = h0->next();
+    h3 = h2->next();
+    h4 = h1->next();
+    h5 = h4->next();
+    h6 = h5->twin();
+    h7 = h2->twin();
+    h8 = h3->twin();
+    h9 = h4->twin();
+    h10 = h9->next();
+    h11 = h8->next();
+
+    // Vertices
+    VertexIter v0, v1, v2, v3;
+    v0 = h0->vertex();
+    v1 = h1->vertex();
+    v2 = h5->vertex();
+    v3 = h3->vertex();
+
+    // Edges
+    EdgeIter e1, e2, e3, e4;
+    e1 = h4->edge();
+    e2 = h5->edge();
+    e3 = h3->edge();
+    e4 = h2->edge();
+
+    // Faces
+    FaceIter f0, f1, f2, f3, f4, f5;
+    f0 = h1->face();
+    f1 = h0->face();
+    f2 = h6->face();
+    f3 = h7->face();
+    f4 = h9->face();
+    f5 = h8->face();
+
+
+    // New coordinate of the singular vertex
+    Vector3D newVertexLocation = (v0->position + v1->position) / 2.0;
+
+
+    // setNeighbors(next, twin, vertex, edge, face)
+    h9->setNeighbors(h10, h6, v2, e1, f4);
+    h8->setNeighbors(h11, h7, v0, e3, f5);
+    h6->setNeighbors(h6->next(), h9, v0, e1, f2);
+    h7->setNeighbors(h7->next(), h8, v3, e3, f3);
+
+    HalfedgeIter dummy = h7->next();
+    while (dummy != h6) {
+      dummy->vertex() = v0;
+      dummy = dummy->twin()->next();
+    }
+
+    // Vertices
+    v0->halfedge() = h8;
+    v2->halfedge() = h9;
+    v3->halfedge() = h7;
+
+    // Edges
+    e1->halfedge() = h9;
+    e3->halfedge() = h8;
+
+    // Faces
+    f2->halfedge() = h6;
+    f3->halfedge() = h7;
+
+    // Delete unneccessary stuff
+    mesh.deleteHalfedge(h0);
+    mesh.deleteHalfedge(h1);
+    mesh.deleteHalfedge(h2);
+    mesh.deleteHalfedge(h3);
+    mesh.deleteHalfedge(h4);
+    mesh.deleteHalfedge(h5);
+
+    mesh.deleteVertex(v1);
+
+    mesh.deleteEdge(e0);
+    mesh.deleteEdge(e2);
+    mesh.deleteEdge(e4);
+
+    mesh.deleteFace(f0);
+    mesh.deleteFace(f1);
+
+    // Reposition vertex
+    v0->position = newVertexLocation;
+
+  }
+
+
+
   void MeshResampler::upsample( HalfedgeMesh& mesh )
   {
     // TODO Part 6.
