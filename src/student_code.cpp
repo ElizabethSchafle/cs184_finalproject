@@ -475,112 +475,118 @@ namespace CGL
   }
 
 
-    std::set<HalfedgeIter> HalfedgeMesh::findIncidentEdges(VertexIter v) {
+  std::set<HalfedgeIter> HalfedgeMesh::findIncidentEdges(VertexIter v, std::vector<HalfedgeIter>* outerHalfEdges) {
       HalfedgeIter h = v->halfedge();
       std::set<HalfedgeIter> incidentHalfEdges = std::set<HalfedgeIter>();
       do
       {
         incidentHalfEdges.insert(h);
+        incidentHalfEdges.insert(h->twin());
+        h->next()->vertex()->halfedge() = h->next();
+        outerHalfEdges->push_back(h->next());
         h = h->twin()->next();
       }
       while(h != v->halfedge());
       return incidentHalfEdges;
+  }
+
+  void HalfedgeMesh::remeshEmptyPolygon(std::vector<HalfedgeIter> outerHalfEdges,
+                                        std::vector<FaceIter> faces, int deg) {
+    std::vector<HalfedgeIter> newEdges = std::vector<HalfedgeIter>();
+    VertexIter start = outerHalfEdges[0]->vertex();
+    //next()->next()->twin()->next()->next()->vertex();
+    VertexIter prev = start;
+    int faceNum = 0;
+
+    //deleteVertex(current);
+    HalfedgeIter nextHe = outerHalfEdges[0];
+    for(int i = 2; i < deg - 1; i++) {
+      VertexIter current = outerHalfEdges[i]->vertex();
+      HalfedgeIter h1 = newHalfedge();
+      HalfedgeIter h2 = newHalfedge();
+      EdgeIter e = newEdge();
+      e->halfedge() = h1;
+      e->newPosition = current->position;
+
+      h1->setNeighbors(nextHe, h2, current, e, faces[faceNum + 1]);
+      h2->setNeighbors(outerHalfEdges[i], h1, start, e, faces[faceNum]);
+
+
+      newEdges.push_back(h1);
+      newEdges.push_back(h2);
+      current->halfedge() = h1;
+      start->halfedge() = h2;
+     // faces[faceNum]->halfedge() = h1;
+      outerHalfEdges[5]->next() = h2;
+      nextHe = h2;
+      faceNum += 1;
     }
 
 
-    /** Deletes vertex v and its incident edges**/
-    void HalfedgeMesh::deleteMeshVertex(VertexIter v) {
-      HalfedgeIter original = v->halfedge();
-      HalfedgeIter curr = original->next();
-      std::vector<VertexIter> incidentVertices = std::vector<VertexIter>();
-      std::set<HalfedgeIter> incidentHalfEdges = std::set<HalfedgeIter>();
-      std::set<EdgeIter> incidentEdges = std::set<EdgeIter>();
-      std::vector<FaceIter> incidentFaces = std::vector<FaceIter>();
-      int deg = v->degree();
-      int count = 0;
+    int j = 0;
+    for(HalfedgeIter he : newEdges) {
+      he->next()->next()->next() = he;
+      he->face()->halfedge() = he;
+    }
+//    faces[0]->halfedge() = newEdges[5];
+//    newEdges[5]->setNeighbors(newEdges[5]->next(), newEdges[5]->twin(), newEdges[5]->vertex(), newEdges[5]->edge(), faces[0]);
+    faces[0]->halfedge() = outerHalfEdges[1];
+    newEdges[1]->setNeighbors(newEdges[1]->next(), newEdges[1]->twin(), newEdges[1]->vertex(), newEdges[1]->edge(), faces[0]);
+  }
 
-      //collect incident vertices for later, and delete the inner faces
-      while(count < deg) {
-        incidentVertices.push_back(curr->vertex());
+  /** Deletes vertex v and its incident edges**/
+  void HalfedgeMesh::deleteMeshVertex(VertexIter v) {
+    HalfedgeIter original = v->halfedge();
+    HalfedgeIter curr = original->next();
+    std::set<HalfedgeIter> incidentHalfEdges = std::set<HalfedgeIter>();
+    std::set<EdgeIter> incidentEdges = std::set<EdgeIter>();
+    std::vector<FaceIter> incidentFaces = std::vector<FaceIter>();
+    int deg = v->degree();
+    int count = 0;
 
-        if(incidentFaces.size() >= deg - 2) {
-          deleteFace(curr->face());
-        } else if (std::find(incidentFaces.begin(), incidentFaces.end(), curr->face()) == incidentFaces.end()){
-          incidentFaces.push_back(curr->face());
-        }
-        curr = curr->next()->twin()->next();
-        count++;
+    //collect incident vertices for later, and delete the inner faces
+    while(count < deg) {
+      if(incidentFaces.size() >= deg - 2) {
+        deleteFace(curr->face());
+      } else if (std::find(incidentFaces.begin(), incidentFaces.end(), curr->face()) == incidentFaces.end()){
+        incidentFaces.push_back(curr->face());
       }
-
-
-      // find the incident half edges, as well as the corresponding edges, and delete the half edges, dont delete edges yet,
-      // will cause seg fault.
-      incidentHalfEdges = findIncidentEdges(v);
-      for(HalfedgeIter h : incidentHalfEdges) {
-        h->vertex()->halfedge() = h->next()->next()->twin();
-        incidentEdges.insert(h->edge());
-        deleteHalfedge(h);
-      }
-
-      // Delete the original edges.
-      for (EdgeIter e: incidentEdges) {
-        deleteEdge(e);
-      }
-
-
-
-      deleteVertex(v);
-      std::vector<HalfedgeIter> newEdges = std::vector<HalfedgeIter>();
-      int vertNum = 0;
-      int faceNum = 0;
-      for(int i = 0; i < deg/2 - 1; i ++) {
-        if(vertNum + 2 < incidentVertices.size() && i == 0) {
-          HalfedgeIter h1 = newHalfedge();
-          HalfedgeIter h2 = newHalfedge();
-          EdgeIter e = newEdge();
-
-          e->halfedge() = h1;
-          e->newPosition = incidentVertices[vertNum + 2]->position;
-          incidentFaces[faceNum]->halfedge() = h2;
-          incidentFaces[faceNum + 1]->halfedge() = h1;
-
-
-          h1->setNeighbors(incidentVertices[vertNum + 2]->halfedge(), h2, incidentVertices[vertNum], e, incidentFaces[faceNum + 1]);
-          h2->setNeighbors(incidentVertices[vertNum]->halfedge(),
-                           h1, incidentVertices[vertNum + 2], e, incidentFaces[faceNum]);
-
-          newEdges.push_back(h1);
-          newEdges.push_back(h2);
-          incidentVertices[vertNum]->halfedge() = h1;
-          incidentVertices[vertNum + 2]->halfedge() = h2;
-          faceNum += 1;
-        }
-//      if(vertNum + 3 < incidentVertices.size() && i == 0) {
-//        HalfedgeIter h3 = newHalfedge();
-//        HalfedgeIter h4 = newHalfedge();
-//        EdgeIter e1 = newEdge();
-//        e1->halfedge() = h3;
-//
-//        incidentFaces[faceNum]->halfedge() = h3;
-//        incidentFaces[faceNum + 1]->halfedge() = h4;
-//
-//        e1->newPosition = incidentVertices[vertNum]->position;
-//        h3->setNeighbors(incidentVertices[vertNum]->halfedge(),
-//                         h4, incidentVertices[vertNum + 3], e1, incidentFaces[faceNum]);
-//        h4->setNeighbors(incidentVertices[vertNum + 3]->halfedge(), h3, incidentVertices[vertNum], e1, incidentFaces[faceNum + 1]);
-//
-//        newEdges.push_back(h3);
-//        newEdges.push_back(h4);
-//        faceNum += 1;
-//      }
-        vertNum += 3;
-      }
-
-
-      // set the ones that point to them as next
-      for(HalfedgeIter he : newEdges) {
-        he->next()->next()->next() = he;
-      }
+      curr = curr->next()->twin()->next();
+      count++;
     }
 
+    // find the incident half edges, as well as the corresponding edges, and delete the half edges, dont delete edges yet,
+    // will cause seg fault.
+    std::vector<HalfedgeIter> outerEdges = std::vector<HalfedgeIter>();
+    incidentHalfEdges = findIncidentEdges(v, &outerEdges);
+    for(HalfedgeIter h : incidentHalfEdges) {
+      incidentEdges.insert(h->edge());
+      deleteHalfedge(h);
+    }
+
+    // Delete the original edges.
+    for (EdgeIter e: incidentEdges) {
+      deleteEdge(e);
+    }
+    deleteFace(incidentFaces[1]);
+    deleteFace(incidentFaces[2]);
+    deleteFace(incidentFaces[3]);
+
+    deleteVertex(v);
+//
+//    std::vector<HalfedgeIter> outerEdges = std::vector<HalfedgeIter>();
+//    incidentHalfEdges = findIncidentEdges(v, &outerEdges);
+//    for(HalfedgeIter h : outerEdges) {
+//     // h->vertex()->halfedge() = h->next()->next()->twin();
+//      incidentEdges.insert(h->edge());
+//      deleteHalfedge(h);
+//    }
+//
+//    // Delete the original edges.
+//    for (EdgeIter e: incidentEdges) {
+//      deleteEdge(e);
+//    }
+
+    remeshEmptyPolygon(outerEdges, incidentFaces, deg);
+  }
 }
