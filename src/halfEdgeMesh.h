@@ -630,7 +630,9 @@ namespace CGL
          EdgeIter       flipEdge( EdgeIter e ); ///< flip an edge, returning a pointer to the flipped edge
          VertexIter      splitEdge( EdgeIter e ); ///< split an edge, returning a pointer to the inserted midpoint vertex; the halfedge of this vertex should refer to one of the edges in the original mesh
          void        deleteMeshVertex( VertexIter v);  ///< delete a vertex and its edges
-         std::set<HalfedgeIter> findIncidentEdges( VertexIter v); ///<return a list of incident edges
+         std::set<HalfedgeIter> findIncidentEdges( VertexIter v, std::vector<HalfedgeIter>* outerHalfEdges); ///<return a list of incident edges
+         void        remeshEmptyPolygon(std::vector<HalfedgeIter> outerHalfEdges,
+                                        std::vector<FaceIter> faces, int deg);
          void         collapseEdge(EdgeIter e0, HalfedgeMesh& mesh); ///< collapse a specified edge
 
      void check_for(HalfedgeIter h) {
