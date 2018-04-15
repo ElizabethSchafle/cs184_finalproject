@@ -497,13 +497,13 @@ namespace CGL
     VertexIter prev = start;
     int faceNum = 0;
 
-    for(FaceIter f: faces) {
-      HalfedgeIter h = f->halfedge();
-    }
+//    for(FaceIter f: faces) {
+//      HalfedgeIter h = f->halfedge();
+//    }
 
     //deleteVertex(current);
     HalfedgeIter nextHe = outerHalfEdges[0];
-    for(int i = 2; i < 5; i++) {
+    for(int i = 2; i < deg - 1; i++) {
       VertexIter current = outerHalfEdges[i]->vertex();
       HalfedgeIter h1 = newHalfedge();
       HalfedgeIter h2 = newHalfedge();
@@ -524,11 +524,11 @@ namespace CGL
       faceNum += 1;
     }
 
-    int j = 0;
-    for(HalfedgeIter he: newEdges) {
-      FaceIter f = he->face();
-      HalfedgeIter h = f->halfedge();
-    }
+//    int j = 0;
+//    for(HalfedgeIter he: newEdges) {
+//      FaceIter f = he->face();
+//      HalfedgeIter h = f->halfedge();
+//    }
 
     for(HalfedgeIter he : newEdges) {
       he->next()->next()->next() = he;
@@ -536,6 +536,15 @@ namespace CGL
       curr->halfedge() = he;
       HalfedgeIter h = curr->halfedge();
     }
+
+//    for(FaceIter f: faces) {
+//      if(j == 6) {
+//        f->halfedge() = newEdges[5];
+//      } else {
+//        f->halfedge() = newEdges[j];
+//        j += 2;
+//      }
+//    }
 
 //    faces[0]->halfedge() = newEdges[0];
   }
