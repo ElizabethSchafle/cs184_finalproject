@@ -2,6 +2,8 @@
 
 namespace CGL {
 
+
+
   bool Halfedge::isBoundary( void ) const
   // returns true if and only if this halfedge is on the boundary
   {
@@ -32,7 +34,27 @@ namespace CGL {
     return N.unit();
   }
 
-  void HalfedgeMesh :: build( const vector< vector<Index> >& polygons,
+    EdgeRecord::EdgeRecord(EdgeIter &_edge) {
+        edge = _edge;
+        HalfedgeIter h = _edge->halfedge();
+        Matrix4x4 edge_quadric = h->vertex()->quadric + h->twin()->vertex()->quadric;
+        Matrix3x3 A = Matrix3x3();
+
+        A.column(0) = Vector3D(edge_quadric.column(0).x, edge_quadric.column(0).y, edge_quadric.column(0).z);
+        A.column(1) = Vector3D(edge_quadric.column(1).x, edge_quadric.column(1).y, edge_quadric.column(1).z);
+        A.column(2) = Vector3D(edge_quadric.column(2).x, edge_quadric.column(2).y, edge_quadric.column(2).z);
+
+        Vector3D b = Vector3D(edge_quadric.column(3).x, edge_quadric.column(3).y, edge_quadric.column(3).z);
+        b = -b;
+
+        Vector3D x = A.inv() * b;
+
+        optimalPoint = x;
+
+        score = dot(x, edge_quadric * x);
+    }
+
+    void HalfedgeMesh :: build( const vector< vector<Index> >& polygons,
     const vector<Vector3D>& vertexPositions )
     // This method initializes the halfedge data structure from a raw list of polygons,
     // where each input polygon is specified as a list of vertex indices.  The input
