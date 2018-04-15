@@ -494,13 +494,16 @@ namespace CGL
                                         std::vector<FaceIter> faces, int deg) {
     std::vector<HalfedgeIter> newEdges = std::vector<HalfedgeIter>();
     VertexIter start = outerHalfEdges[0]->vertex();
-    //next()->next()->twin()->next()->next()->vertex();
     VertexIter prev = start;
     int faceNum = 0;
 
+    for(FaceIter f: faces) {
+      HalfedgeIter h = f->halfedge();
+    }
+
     //deleteVertex(current);
     HalfedgeIter nextHe = outerHalfEdges[0];
-    for(int i = 2; i < deg - 1; i++) {
+    for(int i = 2; i < 5; i++) {
       VertexIter current = outerHalfEdges[i]->vertex();
       HalfedgeIter h1 = newHalfedge();
       HalfedgeIter h2 = newHalfedge();
@@ -508,9 +511,8 @@ namespace CGL
       e->halfedge() = h1;
       e->newPosition = current->position;
 
-      h1->setNeighbors(nextHe, h2, current, e, faces[faceNum + 1]);
-      h2->setNeighbors(outerHalfEdges[i], h1, start, e, faces[faceNum]);
-
+      h1->setNeighbors(nextHe, h2, current, e, faces[faceNum]);
+      h2->setNeighbors(outerHalfEdges[i], h1, start, e, faces[faceNum + 1]);
 
       newEdges.push_back(h1);
       newEdges.push_back(h2);
@@ -522,16 +524,20 @@ namespace CGL
       faceNum += 1;
     }
 
-
     int j = 0;
+    for(HalfedgeIter he: newEdges) {
+      FaceIter f = he->face();
+      HalfedgeIter h = f->halfedge();
+    }
+
     for(HalfedgeIter he : newEdges) {
       he->next()->next()->next() = he;
-      he->face()->halfedge() = he;
+      FaceIter curr = he->face();
+      curr->halfedge() = he;
+      HalfedgeIter h = curr->halfedge();
     }
-//    faces[0]->halfedge() = newEdges[5];
-//    newEdges[5]->setNeighbors(newEdges[5]->next(), newEdges[5]->twin(), newEdges[5]->vertex(), newEdges[5]->edge(), faces[0]);
-    faces[0]->halfedge() = outerHalfEdges[1];
-    newEdges[1]->setNeighbors(newEdges[1]->next(), newEdges[1]->twin(), newEdges[1]->vertex(), newEdges[1]->edge(), faces[0]);
+
+//    faces[0]->halfedge() = newEdges[0];
   }
 
   /** Deletes vertex v and its incident edges**/
