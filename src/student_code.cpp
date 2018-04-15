@@ -534,7 +534,7 @@ namespace CGL
     newEdges[1]->setNeighbors(newEdges[1]->next(), newEdges[1]->twin(), newEdges[1]->vertex(), newEdges[1]->edge(), faces[0]);
   }
 
-  /** Deletes vertex v and its incident edges**/
+  /** Deletes vertex v and its incident edges. Still needs to be fixed.**/
   void HalfedgeMesh::deleteMeshVertex(VertexIter v) {
     HalfedgeIter original = v->halfedge();
     HalfedgeIter curr = original->next();
