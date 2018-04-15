@@ -540,7 +540,7 @@ namespace CGL
 //    faces[0]->halfedge() = newEdges[0];
   }
 
-  /** Deletes vertex v and its incident edges**/
+  /** Deletes vertex v and its incident edges. Still needs to be fixed.**/
   void HalfedgeMesh::deleteMeshVertex(VertexIter v) {
     HalfedgeIter original = v->halfedge();
     HalfedgeIter curr = original->next();
