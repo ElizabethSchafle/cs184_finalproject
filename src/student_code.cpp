@@ -521,19 +521,9 @@ namespace CGL
       faceNum += 1;
     }
 
-    std::vector<FaceIter> fs = std::vector<FaceIter>();
-    for (FaceIter f : faces) {
-      fs.push_back(f);
-    }
-
-
-    std::vector<FaceIter> fs2 = std::vector<FaceIter>();
-
-
     for(HalfedgeIter he : newEdges) {
       he->next()->next()->next() = he;
       FaceIter curr = he->face();
-      fs2.push_back(curr);
       curr->halfedge() = he;
     }
 
@@ -575,20 +565,6 @@ namespace CGL
     }
 
     deleteVertex(v);
-//
-//    std::vector<HalfedgeIter> outerEdges = std::vector<HalfedgeIter>();
-//    incidentHalfEdges = findIncidentEdges(v, &outerEdges);
-//    for(HalfedgeIter h : outerEdges) {
-//     // h->vertex()->halfedge() = h->next()->next()->twin();
-//      incidentEdges.insert(h->edge());
-//      deleteHalfedge(h);
-//    }
-//
-//    // Delete the original edges.
-//    for (EdgeIter e: incidentEdges) {
-//      deleteEdge(e);
-//    }
-
     remeshEmptyPolygon(outerEdges, incidentFaces, deg);
   }
 }
