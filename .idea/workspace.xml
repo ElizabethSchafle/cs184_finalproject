@@ -2,11 +2,11 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
+      <config projectName="ColladaViewer" targetName="CGL" />
+      <config projectName="ColladaViewer" targetName="meshedit" />
       <config projectName="ColladaViewer" targetName="glfw" />
       <config projectName="ColladaViewer" targetName="uninstall" />
-      <config projectName="ColladaViewer" targetName="CGL" />
       <config projectName="ColladaViewer" targetName="glew" />
-      <config projectName="ColladaViewer" targetName="meshedit" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -22,7 +22,6 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/main.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/main.cpp.o" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/meshEdit.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/meshEdit.cpp.o" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/student_code.cpp.o" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/halfEdgeMesh.h" afterPath="$PROJECT_DIR$/src/halfEdgeMesh.h" />
       <change beforePath="$PROJECT_DIR$/src/student_code.cpp" afterPath="$PROJECT_DIR$/src/student_code.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -39,8 +38,8 @@
       <file leaf-file-name="student_code.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/student_code.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="533" column="105" lean-forward="false" selection-start-line="533" selection-start-column="105" selection-end-line="533" selection-end-column="105" />
+            <state relative-caret-position="673">
+              <caret line="574" column="5" lean-forward="false" selection-start-line="574" selection-start-column="5" selection-end-line="574" selection-end-column="5" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
                 <element signature="e#101#742#0" expanded="false" />
@@ -51,7 +50,6 @@
                 <element signature="e#5278#8247#0" expanded="false" />
                 <element signature="e#8252#10351#0" expanded="false" />
                 <element signature="e#10357#13859#0" expanded="false" />
-                <element signature="e#13864#14396#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -60,18 +58,8 @@
       <file leaf-file-name="vector" pinned="false" current-in-tab="false">
         <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23925">
-              <caret line="1595" column="0" lean-forward="false" selection-start-line="1595" selection-start-column="0" selection-end-line="1595" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__functional_base" pinned="false" current-in-tab="false">
-        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/__functional_base">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="364">
-              <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+              <caret line="1595" column="0" lean-forward="false" selection-start-line="1595" selection-start-column="0" selection-end-line="1595" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -90,8 +78,8 @@
       <file leaf-file-name="halfEdgeMesh.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/halfEdgeMesh.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="587">
-              <caret line="633" column="40" lean-forward="false" selection-start-line="633" selection-start-column="40" selection-end-line="633" selection-end-column="40" />
+            <state relative-caret-position="375">
+              <caret line="662" column="40" lean-forward="false" selection-start-line="662" selection-start-column="40" selection-end-line="662" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -105,7 +93,6 @@
       <find>free</find>
       <find>deleteedge</find>
       <find>Edge*</find>
-      <find>Edge*</find>
       <find>deleteha</find>
       <find>splitselected</find>
       <find>newE</find>
@@ -114,7 +101,6 @@
       <find>deleteVer</find>
       <find>incident</find>
       <find>deleteMesh</find>
-      <find>f2</find>
       <find>newEdge</find>
       <find>newvertex</find>
       <find>newhalf</find>
@@ -126,6 +112,8 @@
       <find>e5</find>
       <find>deletemesh</find>
       <find>remesh</find>
+      <find>newface</find>
+      <find>f2</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -182,6 +170,11 @@
             <path>
               <item name="ColladaViewer" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
               <item name="cs184_finalproject" type="462c0819:PsiDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ColladaViewer" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="cs184_finalproject" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -208,7 +201,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.meshedit">
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ColladaViewer" TARGET_NAME="CGL" CONFIG_NAME="Debug">
       <envs />
     </configuration>
     <configuration name="CGL" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ColladaViewer" TARGET_NAME="CGL" CONFIG_NAME="Debug">
@@ -251,12 +244,12 @@
       <workItem from="1523221993856" duration="592000" />
       <workItem from="1523311721365" duration="45089000" />
       <workItem from="1523666784291" duration="315000" />
-      <workItem from="1523667229112" duration="1740000" />
+      <workItem from="1523667229112" duration="9528000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47736000" />
+    <option name="totallyTimeSpent" value="55524000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="22" y="23" width="1414" height="803" extended-state="0" />
@@ -313,11 +306,11 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/student_code.cpp</url>
-          <line>532</line>
-          <option name="timeStamp" value="17" />
+          <line>538</line>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="18" />
+      <option name="time" value="30" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -336,7 +329,6 @@
             <element signature="e#5278#8247#0" expanded="false" />
             <element signature="e#8252#10351#0" expanded="false" />
             <element signature="e#10357#13859#0" expanded="false" />
-            <element signature="e#13864#14396#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -387,7 +379,6 @@
             <element signature="e#5278#8247#0" expanded="false" />
             <element signature="e#8252#10351#0" expanded="false" />
             <element signature="e#10357#13859#0" expanded="false" />
-            <element signature="e#13864#14396#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -438,7 +429,6 @@
             <element signature="e#5278#8247#0" expanded="false" />
             <element signature="e#8252#10351#0" expanded="false" />
             <element signature="e#10357#13859#0" expanded="false" />
-            <element signature="e#13864#14396#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -542,18 +532,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
+    <entry file="file://$PROJECT_DIR$/src/meshEdit.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23925">
-          <caret line="1595" column="0" lean-forward="false" selection-start-line="1595" selection-start-column="0" selection-end-line="1595" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/halfEdgeMesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
-          <caret line="633" column="40" lean-forward="false" selection-start-line="633" selection-start-column="40" selection-end-line="633" selection-end-column="40" />
+        <state relative-caret-position="436">
+          <caret line="1514" column="0" lean-forward="false" selection-start-line="1514" selection-start-column="0" selection-end-line="1514" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -566,18 +548,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/meshEdit.cpp">
+    <entry file="file://$PROJECT_DIR$/src/halfEdgeMesh.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="1514" column="0" lean-forward="false" selection-start-line="1514" selection-start-column="0" selection-end-line="1514" selection-end-column="0" />
+        <state relative-caret-position="375">
+          <caret line="662" column="40" lean-forward="false" selection-start-line="662" selection-start-column="40" selection-end-line="662" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="1595" column="0" lean-forward="false" selection-start-line="1595" selection-start-column="0" selection-end-line="1595" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/student_code.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="533" column="105" lean-forward="false" selection-start-line="533" selection-start-column="105" selection-end-line="533" selection-end-column="105" />
+        <state relative-caret-position="673">
+          <caret line="574" column="5" lean-forward="false" selection-start-line="574" selection-start-column="5" selection-end-line="574" selection-end-column="5" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
             <element signature="e#101#742#0" expanded="false" />
@@ -588,7 +578,6 @@
             <element signature="e#5278#8247#0" expanded="false" />
             <element signature="e#8252#10351#0" expanded="false" />
             <element signature="e#10357#13859#0" expanded="false" />
-            <element signature="e#13864#14396#0" expanded="false" />
           </folding>
         </state>
       </provider>
