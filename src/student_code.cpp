@@ -497,13 +497,9 @@ namespace CGL
     VertexIter prev = start;
     int faceNum = 0;
 
-//    for(FaceIter f: faces) {
-//      HalfedgeIter h = f->halfedge();
-//    }
 
-    //deleteVertex(current);
     HalfedgeIter nextHe = outerHalfEdges[0];
-    for(int i = 2; i < deg - 1; i++) {
+    for(int i = deg - 2; i > 1; i--) {
       VertexIter current = outerHalfEdges[i]->vertex();
       HalfedgeIter h1 = newHalfedge();
       HalfedgeIter h2 = newHalfedge();
@@ -511,6 +507,7 @@ namespace CGL
       e->halfedge() = h1;
       e->newPosition = current->position;
 
+      // confirmed assigned in correct order
       h1->setNeighbors(nextHe, h2, current, e, faces[faceNum]);
       h2->setNeighbors(outerHalfEdges[i], h1, start, e, faces[faceNum + 1]);
 
@@ -518,35 +515,18 @@ namespace CGL
       newEdges.push_back(h2);
       current->halfedge() = h1;
       start->halfedge() = h2;
-     // faces[faceNum]->halfedge() = h1;
+      faces[faceNum]->halfedge() = h1;
       outerHalfEdges[5]->next() = h2;
       nextHe = h2;
       faceNum += 1;
     }
 
-//    int j = 0;
-//    for(HalfedgeIter he: newEdges) {
-//      FaceIter f = he->face();
-//      HalfedgeIter h = f->halfedge();
-//    }
-
     for(HalfedgeIter he : newEdges) {
       he->next()->next()->next() = he;
       FaceIter curr = he->face();
       curr->halfedge() = he;
-      HalfedgeIter h = curr->halfedge();
     }
 
-//    for(FaceIter f: faces) {
-//      if(j == 6) {
-//        f->halfedge() = newEdges[5];
-//      } else {
-//        f->halfedge() = newEdges[j];
-//        j += 2;
-//      }
-//    }
-
-//    faces[0]->halfedge() = newEdges[0];
   }
 
   /** Deletes vertex v and its incident edges. Still needs to be fixed.**/
@@ -583,25 +563,8 @@ namespace CGL
     for (EdgeIter e: incidentEdges) {
       deleteEdge(e);
     }
-    deleteFace(incidentFaces[1]);
-    deleteFace(incidentFaces[2]);
-    deleteFace(incidentFaces[3]);
 
     deleteVertex(v);
-//
-//    std::vector<HalfedgeIter> outerEdges = std::vector<HalfedgeIter>();
-//    incidentHalfEdges = findIncidentEdges(v, &outerEdges);
-//    for(HalfedgeIter h : outerEdges) {
-//     // h->vertex()->halfedge() = h->next()->next()->twin();
-//      incidentEdges.insert(h->edge());
-//      deleteHalfedge(h);
-//    }
-//
-//    // Delete the original edges.
-//    for (EdgeIter e: incidentEdges) {
-//      deleteEdge(e);
-//    }
-
     remeshEmptyPolygon(outerEdges, incidentFaces, deg);
   }
 }
