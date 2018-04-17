@@ -17,6 +17,8 @@ namespace CGL {
     ~MeshResampler(){}
 
     void upsample(HalfedgeMesh& mesh);
+
+    void quadricSimplify(HalfedgeMesh& mesh);
   };
 }
 

@@ -567,4 +567,42 @@ namespace CGL
     deleteVertex(v);
     remeshEmptyPolygon(outerEdges, incidentFaces, deg);
   }
+
+  void MeshResampler::quadricSimplify(HalfedgeMesh &mesh) {
+
+    ///  The first part is to compute the quadrics for each face
+    for (FaceIter face = mesh.facesBegin(); face != mesh.facesEnd(); face++) {
+      face->calculate_quadric();
+    }
+
+    ///  Second part is to compute the quadrics for each vertex
+    for (VertexIter vertex = mesh.verticesBegin(); vertex != mesh.verticesEnd(); vertex++) {
+      vertex->calculate_quadratic();
+    }
+
+    ///  For each edge, create an edgeRecord and insert it into one global MutablePriorityQueue
+
+    MutablePriorityQueue m_queue;
+    for (EdgeIter edge = mesh.edgesEnd(); edge != mesh.edgesEnd(); edge++) {
+      EdgeRecord edge_record = EdgeRecord(edge);
+      m_queue.insert(edge_record);
+    }
+
+    ///  Until a target number of triangles is reached, collapse the best/cheapest edge.
+    ///  Set this number to 1/4th the number of triangles in the input (since subdivision will give you a factor of 4 in the opposite direction)
+    Size target_triangles = mesh.nFaces() / 4; //This might be wrong but will clarify this
+
+    while (mesh.nFaces() != target_triangles) {
+      EdgeRecord cheapest_record = m_queue.top();
+      m_queue.pop();
+
+      EdgeIter cheap_edge = cheapest_record.edge;
+      Matrix4x4 new_quadric = cheap_edge->halfedge()->vertex()->quadric + cheap_edge->halfedge()->twin()->vertex()->quadric;
+
+      ///  Removing any edge touching either of its endpoints from the queue
+      
+    }
+
+
+  }
 }
