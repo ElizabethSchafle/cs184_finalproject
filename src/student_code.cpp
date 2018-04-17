@@ -582,10 +582,10 @@ namespace CGL
 
     ///  For each edge, create an edgeRecord and insert it into one global MutablePriorityQueue
 
-    MutablePriorityQueue m_queue;
+      MutablePriorityQueue<EdgeRecord> queue;
     for (EdgeIter edge = mesh.edgesEnd(); edge != mesh.edgesEnd(); edge++) {
       EdgeRecord edge_record = EdgeRecord(edge);
-      m_queue.insert(edge_record);
+      queue.insert(edge_record);
     }
 
     ///  Until a target number of triangles is reached, collapse the best/cheapest edge.
@@ -593,14 +593,17 @@ namespace CGL
     Size target_triangles = mesh.nFaces() / 4; //This might be wrong but will clarify this
 
     while (mesh.nFaces() != target_triangles) {
-      EdgeRecord cheapest_record = m_queue.top();
-      m_queue.pop();
+      EdgeRecord cheapest_record = queue.top();
+      queue.pop();
 
       EdgeIter cheap_edge = cheapest_record.edge;
       Matrix4x4 new_quadric = cheap_edge->halfedge()->vertex()->quadric + cheap_edge->halfedge()->twin()->vertex()->quadric;
 
       ///  Removing any edge touching either of its endpoints from the queue
-      
+      // ... to be added tomorrow morning
+
+      /// Collapse the edge
+      mesh.collapseEdge(cheap_edge, mesh); // Will hope to be fixed
     }
 
 
