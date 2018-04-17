@@ -292,10 +292,14 @@ namespace CGL
   }
 
 
-  void HalfedgeMesh::collapseEdge(EdgeIter e0)
+  VertexIter HalfedgeMesh::collapseEdge(EdgeIter e0)
   {
     // TODO Brian Ho.
     // TODO This method will delete the given edge and combine the endpoints.
+
+    // if (e0->halfedge()->vertex()->isBoundary() || e0->halfedge()->twin()->vertex()->isBoundary()) {
+    //   return;
+    // }
 
     // Halfedges
     HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
@@ -384,6 +388,7 @@ namespace CGL
 
     // Reposition vertex
     v0->position = newVertexLocation;
+    return v0;
 
   }
 
