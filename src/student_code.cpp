@@ -292,10 +292,14 @@ namespace CGL
   }
 
 
-  void HalfedgeMesh::collapseEdge(EdgeIter e0, HalfedgeMesh& mesh)
+  VertexIter HalfedgeMesh::collapseEdge(EdgeIter e0)
   {
     // TODO Brian Ho.
     // TODO This method will delete the given edge and combine the endpoints.
+
+    // if (e0->halfedge()->vertex()->isBoundary() || e0->halfedge()->twin()->vertex()->isBoundary()) {
+    //   return;
+    // }
 
     // Halfedges
     HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
@@ -366,24 +370,25 @@ namespace CGL
     f3->halfedge() = h7;
 
     // Delete unneccessary stuff
-    mesh.deleteHalfedge(h0);
-    mesh.deleteHalfedge(h1);
-    mesh.deleteHalfedge(h2);
-    mesh.deleteHalfedge(h3);
-    mesh.deleteHalfedge(h4);
-    mesh.deleteHalfedge(h5);
+    deleteHalfedge(h0);
+    deleteHalfedge(h1);
+    deleteHalfedge(h2);
+    deleteHalfedge(h3);
+    deleteHalfedge(h4);
+    deleteHalfedge(h5);
 
-    mesh.deleteVertex(v1);
+    deleteVertex(v1);
 
-    mesh.deleteEdge(e0);
-    mesh.deleteEdge(e2);
-    mesh.deleteEdge(e4);
+    deleteEdge(e0);
+    deleteEdge(e2);
+    deleteEdge(e4);
 
-    mesh.deleteFace(f0);
-    mesh.deleteFace(f1);
+    deleteFace(f0);
+    deleteFace(f1);
 
     // Reposition vertex
     v0->position = newVertexLocation;
+    return v0;
 
   }
 
@@ -603,7 +608,7 @@ namespace CGL
       // ... to be added tomorrow morning
 
       /// Collapse the edge
-      mesh.collapseEdge(cheap_edge, mesh); // Will hope to be fixed
+      mesh.collapseEdge(cheap_edge); // Will hope to be fixed
     }
 
 
