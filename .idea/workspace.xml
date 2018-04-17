@@ -17,11 +17,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fea4b6c8-de08-4b28-98d1-0b9bd12212c3" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/meshedit" afterPath="$PROJECT_DIR$/cmake-build-debug/meshedit" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/halfEdgeMesh.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/halfEdgeMesh.cpp.o" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/main.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/main.cpp.o" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/meshEdit.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/meshEdit.cpp.o" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/src/CMakeFiles/meshedit.dir/student_code.cpp.o" afterPath="" />
       <change beforePath="$PROJECT_DIR$/src/student_code.cpp" afterPath="$PROJECT_DIR$/src/student_code.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -38,8 +33,8 @@
       <file leaf-file-name="student_code.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/student_code.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="673">
-              <caret line="574" column="5" lean-forward="false" selection-start-line="574" selection-start-column="5" selection-end-line="574" selection-end-column="5" />
+            <state relative-caret-position="554">
+              <caret line="527" column="5" lean-forward="false" selection-start-line="527" selection-start-column="5" selection-end-line="527" selection-end-column="5" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
                 <element signature="e#101#742#0" expanded="false" />
@@ -50,17 +45,8 @@
                 <element signature="e#5278#8247#0" expanded="false" />
                 <element signature="e#8252#10351#0" expanded="false" />
                 <element signature="e#10357#13859#0" expanded="false" />
+                <element signature="e#13864#14396#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vector" pinned="false" current-in-tab="false">
-        <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="1595" column="0" lean-forward="false" selection-start-line="1595" selection-start-column="0" selection-end-line="1595" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -78,8 +64,8 @@
       <file leaf-file-name="halfEdgeMesh.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/halfEdgeMesh.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="662" column="40" lean-forward="false" selection-start-line="662" selection-start-column="40" selection-end-line="662" selection-end-column="40" />
+            <state relative-caret-position="-365">
+              <caret line="373" column="14" lean-forward="false" selection-start-line="373" selection-start-column="14" selection-end-line="373" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -114,6 +100,7 @@
       <find>remesh</find>
       <find>newface</find>
       <find>f2</find>
+      <find>faces</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -140,8 +127,8 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="22" />
-    <option name="y" value="23" />
+    <option name="x" value="12" />
+    <option name="y" value="41" />
     <option name="width" value="1414" />
     <option name="height" value="803" />
   </component>
@@ -244,15 +231,15 @@
       <workItem from="1523221993856" duration="592000" />
       <workItem from="1523311721365" duration="45089000" />
       <workItem from="1523666784291" duration="315000" />
-      <workItem from="1523667229112" duration="9528000" />
+      <workItem from="1523667229112" duration="12957000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55524000" />
+    <option name="totallyTimeSpent" value="58953000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="22" y="23" width="1414" height="803" extended-state="0" />
+    <frame x="12" y="41" width="1414" height="803" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2496464" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -306,11 +293,16 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/src/student_code.cpp</url>
-          <line>538</line>
+          <line>527</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src/student_code.cpp</url>
+          <line>468</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="30" />
+      <option name="time" value="32" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -329,6 +321,7 @@
             <element signature="e#5278#8247#0" expanded="false" />
             <element signature="e#8252#10351#0" expanded="false" />
             <element signature="e#10357#13859#0" expanded="false" />
+            <element signature="e#13864#14396#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -379,6 +372,7 @@
             <element signature="e#5278#8247#0" expanded="false" />
             <element signature="e#8252#10351#0" expanded="false" />
             <element signature="e#10357#13859#0" expanded="false" />
+            <element signature="e#13864#14396#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -429,6 +423,7 @@
             <element signature="e#5278#8247#0" expanded="false" />
             <element signature="e#8252#10351#0" expanded="false" />
             <element signature="e#10357#13859#0" expanded="false" />
+            <element signature="e#13864#14396#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -548,14 +543,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/halfEdgeMesh.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="662" column="40" lean-forward="false" selection-start-line="662" selection-start-column="40" selection-end-line="662" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="364">
@@ -564,10 +551,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/halfEdgeMesh.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-365">
+          <caret line="373" column="14" lean-forward="false" selection-start-line="373" selection-start-column="14" selection-end-line="373" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/student_code.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="673">
-          <caret line="574" column="5" lean-forward="false" selection-start-line="574" selection-start-column="5" selection-end-line="574" selection-end-column="5" />
+        <state relative-caret-position="554">
+          <caret line="527" column="5" lean-forward="false" selection-start-line="527" selection-start-column="5" selection-end-line="527" selection-end-column="5" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
             <element signature="e#101#742#0" expanded="false" />
@@ -578,6 +573,7 @@
             <element signature="e#5278#8247#0" expanded="false" />
             <element signature="e#8252#10351#0" expanded="false" />
             <element signature="e#10357#13859#0" expanded="false" />
+            <element signature="e#13864#14396#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -497,9 +497,9 @@ namespace CGL
     VertexIter prev = start;
     int faceNum = 0;
 
-    //deleteVertex(current);
+
     HalfedgeIter nextHe = outerHalfEdges[0];
-    for(int i = 2; i < 5; i++) {
+    for(int i = deg - 2; i > 1; i--) {
       VertexIter current = outerHalfEdges[i]->vertex();
       HalfedgeIter h1 = newHalfedge();
       HalfedgeIter h2 = newHalfedge();
