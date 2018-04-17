@@ -673,7 +673,7 @@ namespace CGL
          std::set<HalfedgeIter> findIncidentEdges( VertexIter v, std::vector<HalfedgeIter>* outerHalfEdges); ///<return a list of incident edges
          void        remeshEmptyPolygon(std::vector<HalfedgeIter> outerHalfEdges,
                                         std::vector<FaceIter> faces, int deg);
-         void         collapseEdge(EdgeIter e0, HalfedgeMesh& mesh); ///< collapse a specified edge
+         void         collapseEdge(EdgeIter e0); ///< collapse a specified edge
 
          void quadraticSimplify(HalfedgeMesh & mesh); ///< simplify mesh using quadratic error metrics
 

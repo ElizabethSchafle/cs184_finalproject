@@ -1516,7 +1516,7 @@ namespace CGL {
                     void MeshEdit :: collapseEdge( void ) {
                       Edge* e = selectedFeature.element->getEdge();
                       if(e == NULL) { cerr << "Must select an edge." << endl; return; }
-                      selectedFeature.node->mesh.collapseEdge(e->halfedge()->edge(), selectedFeature.node->mesh);
+                      selectedFeature.node->mesh.collapseEdge(e->halfedge()->edge());
 
                       // Since the mesh may have changed, the selected and
                       // hovered features may no longer point to valid elements.
