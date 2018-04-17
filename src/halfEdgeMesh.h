@@ -402,12 +402,7 @@ namespace CGL
           */
          Vector3D normal( void ) const;
 
-       void calculate_quadric( void ) {
-           Vector3D face_normal = normal();
-           Vector4D plane_p = Vector4D(face_normal.x, face_normal.y, face_normal.z, 0.0);
-           Matrix4x4 face_quadric = outer(plane_p, plane_p);
-           quadric = face_quadric;
-       }
+       void calculate_quadric( void );
 
          Matrix4x4 quadric;
 

@@ -1,5 +1,6 @@
 #include "student_code.h"
 #include "mutablePriorityQueue.h"
+#include "halfEdgeMesh.h"
 
 using namespace std;
 
@@ -605,10 +606,50 @@ namespace CGL
       Matrix4x4 new_quadric = cheap_edge->halfedge()->vertex()->quadric + cheap_edge->halfedge()->twin()->vertex()->quadric;
 
       ///  Removing any edge touching either of its endpoints from the queue
-      // ... to be added tomorrow morning
+      VertexIter edge_point1 = cheap_edge->halfedge()->vertex();
+      VertexIter edge_point2 = cheap_edge->halfedge()->twin()->vertex();
+
+      HalfedgeIter h1 = edge_point1->halfedge();
+
+      do
+      {
+        if (h1->edge() != cheap_edge) {
+          queue.remove(EdgeRecord(h1->edge()));
+        }
+        h1 = h1->twin()->next();
+      } while (h1 != edge_point1->halfedge());
+
+
+      HalfedgeIter h2 = edge_point2->halfedge();
+
+      do
+      {
+        if (h2->edge() != cheap_edge) {
+          queue.remove(EdgeRecord(h2->edge()));
+        }
+        h2 = h2->twin()->next();
+      } while (h2 != edge_point2->halfedge());
+
 
       /// Collapse the edge
-      mesh.collapseEdge(cheap_edge); // Will hope to be fixed
+      VertexIter new_vertex = mesh.collapseEdge(cheap_edge);
+
+
+      ///  Set the quadric of the new vertex to the quadric computed in Step 2.
+      new_vertex->quadric = new_quadric;
+
+
+      ///  Insert any edge touching the new vertex into the queue, creating new edge records for each of them.
+      HalfedgeIter new_vertex_h = new_vertex->halfedge();
+
+      do
+      {
+
+        queue.insert(EdgeRecord(new_vertex_h->edge()));
+        new_vertex_h = new_vertex_h->twin()->next();
+
+      } while (new_vertex_h != new_vertex->halfedge());
+
     }
 
 

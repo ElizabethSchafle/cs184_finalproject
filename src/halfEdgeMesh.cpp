@@ -34,6 +34,14 @@ namespace CGL {
     return N.unit();
   }
 
+    void Face::calculate_quadric() {
+      Vector3D face_normal = normal();
+      double d = dot(face_normal, halfedge()->vertex()->position);
+      Vector4D plane_p = Vector4D(face_normal.x, face_normal.y, face_normal.z, d);
+      Matrix4x4 face_quadric = outer(plane_p, plane_p);
+      quadric = face_quadric;
+    }
+
     EdgeRecord::EdgeRecord(EdgeIter &_edge) {
         edge = _edge;
         HalfedgeIter h = _edge->halfedge();
