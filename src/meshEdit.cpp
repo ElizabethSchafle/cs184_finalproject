@@ -261,14 +261,15 @@ namespace CGL {
           case 'C':
           collapseEdge();
           break;
-          case 'z':
-          case 'Z':
-          vertexShift();
+          case 'r':
+          case 'R':
+          remesh();
           break;
 		  case 'd':
 		  case 'D':
 		  mesh_down_sample();
 		  break;
+
           case 'n':
           case 'N':
           selectNextHalfedge();
@@ -1005,6 +1006,27 @@ namespace CGL {
 					selectedFeature.invalidate();
 					hoveredFeature.invalidate();
 				  }
+          void MeshEdit::remesh( void ) {
+            HalfedgeMesh* mesh;
+
+            // If an element is selected, resample the mesh containing that
+            // element; otherwise, resample the first mesh in the scene.
+            if( selectedFeature.isValid() )
+            {
+              mesh = &( selectedFeature.node->mesh );
+            }
+            else
+            {
+              mesh = &( meshNodes.begin()->mesh );
+            }
+
+            resampler.incrementalRemeshing(*mesh);
+
+            // Since the mesh may have changed, the selected and
+            // hovered features may no longer point to valid elements.
+            selectedFeature.invalidate();
+            hoveredFeature.invalidate();
+          }
                   inline void MeshEdit::drawString(float x, float y, string str, size_t size, Color c)
                   {
                     int line_index = text_mgr.add_line(( x*2/screen_w) - 1.0,

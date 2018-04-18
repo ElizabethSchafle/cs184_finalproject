@@ -393,8 +393,6 @@ namespace CGL
 
   }
 
-
-
   void MeshResampler::upsample( HalfedgeMesh& mesh )
   {
     // TODO Part 6.
@@ -698,5 +696,52 @@ namespace CGL
     v->computeCentroid();
     v->position = v->centroid;
     return v;
+  }
+
+  void MeshResampler::centerVertices(HalfedgeMesh& mesh) {
+    for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
+      mesh.vertexShift(v);
+    }
+  }
+
+  float MeshResampler::avgEdgeLength(HalfedgeMesh& mesh) {
+    float totalLen = 0.0;
+    float numEdges = 0.0;
+    for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
+      totalLen += e->length();
+    }
+    if (numEdges == 0.0) {
+      return 0.0;
+    }
+    return totalLen / numEdges;
+
+  }
+
+  void MeshResampler::incrementalRemeshing(HalfedgeMesh& mesh) {
+    float L = avgEdgeLength(mesh);
+    float L_max = (4.0 / 3.0) * L;
+    float L_min = (4.0 / 5.0) * L;
+
+    std::vector<EdgeIter> toSplit = std::vector<EdgeIter>();
+    std::vector<EdgeIter> toCollapse = std::vector<EdgeIter>();
+
+
+    for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
+      if (e->length() > L_max) {
+        toSplit.push_back(e);
+      } else if (e->length() < L_min) {
+        toCollapse.push_back(e);
+      }
+    }
+
+    for(EdgeIter e: toSplit)  {
+      mesh.splitEdge(e);
+    }
+
+    for(EdgeIter e: toCollapse) {
+      mesh.collapseEdge(e);
+    }
+
+    centerVertices(mesh);
   }
 }

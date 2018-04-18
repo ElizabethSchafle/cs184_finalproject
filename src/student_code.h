@@ -19,6 +19,9 @@ namespace CGL {
     void upsample(HalfedgeMesh& mesh);
 
     void quadraticSimplify(HalfedgeMesh& mesh);
+    void centerVertices(HalfedgeMesh& mesh);
+    float avgEdgeLength(HalfedgeMesh& mesh);
+    void incrementalRemeshing(HalfedgeMesh& mesh);
   };
 }
 
