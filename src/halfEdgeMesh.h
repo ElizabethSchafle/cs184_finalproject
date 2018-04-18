@@ -492,38 +492,7 @@ namespace CGL
             return d;
          }
 
-       void calculate_quadratic( void ) {
-
-           Matrix4x4 quadratic_sum = Matrix4x4();
-           quadratic_sum.zero(0.0);
-
-           Matrix4x4 face_quadric;
-           /*
-           const Vector4D vertex_u = Vector4D(position.x, position.y, position.z, 1.0);
-           Vector3D face_normal;
-           Vector4D vertex_v;
-           Matrix4x4 uv_quad;
-           */
-           HalfedgeIter h = halfedge();
-
-           do {
-
-               face_quadric = h->face()->quadric;
-               /*
-               face_normal = h->face()->normal();
-               double plane_equation_denorm = position.x * face_normal.x  + position.y * face_normal.y + position.z * face_normal.z;
-               double d = 0.0 - plane_equation_denorm;
-               vertex_v = Vector4D(face_normal.x, face_normal.y, face_normal.z, d);
-               uv_quad = outer(vertex_v, vertex_v);
-               */
-               quadratic_sum += face_quadric;
-
-               h = h->twin()->next();
-
-           } while( h != _halfedge );
-
-           quadric = quadratic_sum;
-       }
+	 	void calculate_quadratic( void );
 
         Matrix4x4 quadric;
 

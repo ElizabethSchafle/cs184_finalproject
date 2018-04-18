@@ -603,19 +603,19 @@ namespace CGL
 
     ///  For each edge, create an edgeRecord and insert it into one global MutablePriorityQueue
 
-      MutablePriorityQueue<EdgeRecord> queue;
-    for (EdgeIter edge = mesh.edgesEnd(); edge != mesh.edgesEnd(); edge++) {
+      MutablePriorityQueue<EdgeRecord> m_queue;
+    for (EdgeIter edge = mesh.edgesBegin(); edge != mesh.edgesEnd(); edge++) {
       EdgeRecord edge_record = EdgeRecord(edge);
-      queue.insert(edge_record);
+      m_queue.insert(edge_record);
     }
 
     ///  Until a target number of triangles is reached, collapse the best/cheapest edge.
     ///  Set this number to 1/4th the number of triangles in the input (since subdivision will give you a factor of 4 in the opposite direction)
-    Size target_triangles = mesh.nFaces() / 4; //This might be wrong but will clarify this
+    Size target_triangles = mesh.nFaces() / 4;
 
-    while (mesh.nFaces() != target_triangles) {
-      EdgeRecord cheapest_record = queue.top();
-      queue.pop();
+    while (mesh.nFaces() > target_triangles) {
+      EdgeRecord cheapest_record = m_queue.top();
+      m_queue.pop();
 
       EdgeIter cheap_edge = cheapest_record.edge;
       Matrix4x4 new_quadric = cheap_edge->halfedge()->vertex()->quadric + cheap_edge->halfedge()->twin()->vertex()->quadric;
@@ -629,7 +629,7 @@ namespace CGL
       do
       {
         if (h1->edge() != cheap_edge) {
-          queue.remove(EdgeRecord(h1->edge()));
+          m_queue.remove(EdgeRecord(h1->edge()));
         }
         h1 = h1->twin()->next();
       } while (h1 != edge_point1->halfedge());
@@ -640,7 +640,7 @@ namespace CGL
       do
       {
         if (h2->edge() != cheap_edge) {
-          queue.remove(EdgeRecord(h2->edge()));
+          m_queue.remove(EdgeRecord(h2->edge()));
         }
         h2 = h2->twin()->next();
       } while (h2 != edge_point2->halfedge());
@@ -660,13 +660,12 @@ namespace CGL
       do
       {
 
-        queue.insert(EdgeRecord(new_vertex_h->edge()));
+        m_queue.insert(EdgeRecord(new_vertex_h->edge()));
         new_vertex_h = new_vertex_h->twin()->next();
 
       } while (new_vertex_h != new_vertex->halfedge());
 
     }
-
 
   }
 
