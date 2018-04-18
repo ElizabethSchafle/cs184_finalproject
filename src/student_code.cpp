@@ -591,7 +591,7 @@ namespace CGL
     deleteVertex(v);
   }
 
-  void MeshResampler::quadricSimplify(HalfedgeMesh &mesh) {
+  void MeshResampler::quadraticSimplify(HalfedgeMesh &mesh) {
 
     ///  The first part is to compute the quadrics for each face
     for (FaceIter face = mesh.facesBegin(); face != mesh.facesEnd(); face++) {
