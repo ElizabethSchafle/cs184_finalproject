@@ -497,12 +497,14 @@ namespace CGL
   }
 
   void HalfedgeMesh::remeshEmptyPolygon(std::vector<HalfedgeIter> outerHalfEdges,
-                                        std::vector<FaceIter> faces, int deg) {
+                                        std::vector<FaceIter> faces, int deg, VertexIter v,
+                                        std::set<HalfedgeIter> incidentHalfEdges) {
     std::vector<HalfedgeIter> newEdges = std::vector<HalfedgeIter>();
     VertexIter start = outerHalfEdges[0]->vertex();
     VertexIter prev = start;
     int faceNum = 0;
 
+    HalfedgeIter original = start->halfedge();
 
     HalfedgeIter nextHe = outerHalfEdges[0];
     for(int i = deg - 2; i > 1; i--) {
@@ -513,13 +515,22 @@ namespace CGL
       e->halfedge() = h1;
       e->newPosition = current->position;
 
+
       // confirmed assigned in correct order
       h1->setNeighbors(nextHe, h2, current, e, faces[faceNum]);
       h2->setNeighbors(outerHalfEdges[i], h1, start, e, faces[faceNum + 1]);
 
       newEdges.push_back(h1);
       newEdges.push_back(h2);
-      current->halfedge() = h1;
+
+
+      // if the current vertices he is one thats going to be deleted, set it to the new one.
+      // still something wrong with the pointers... 
+      if(current->halfedge()->next()->vertex() == v) {
+        current->halfedge() = h1;
+      }
+
+
       start->halfedge() = h2;
       faces[faceNum]->halfedge() = h1;
       outerHalfEdges[5]->next() = h2;
@@ -532,6 +543,11 @@ namespace CGL
       FaceIter curr = he->face();
       curr->halfedge() = he;
     }
+
+
+
+    //reset verts original he's
+    start->halfedge() = original;
 
   }
 
@@ -560,6 +576,8 @@ namespace CGL
     // will cause seg fault.
     std::vector<HalfedgeIter> outerEdges = std::vector<HalfedgeIter>();
     incidentHalfEdges = findIncidentEdges(v, &outerEdges);
+
+    remeshEmptyPolygon(outerEdges, incidentFaces, deg, v, incidentHalfEdges);
     for(HalfedgeIter h : incidentHalfEdges) {
       incidentEdges.insert(h->edge());
       deleteHalfedge(h);
@@ -571,7 +589,6 @@ namespace CGL
     }
 
     deleteVertex(v);
-    remeshEmptyPolygon(outerEdges, incidentFaces, deg);
   }
 
   void MeshResampler::quadricSimplify(HalfedgeMesh &mesh) {
