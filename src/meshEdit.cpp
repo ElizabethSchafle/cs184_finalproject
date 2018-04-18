@@ -261,6 +261,10 @@ namespace CGL {
           case 'C':
           collapseEdge();
           break;
+          case 'z':
+          case 'Z':
+          vertexShift();
+          break;
 		  case 'd':
 		  case 'D':
 		  mesh_down_sample();
@@ -1545,6 +1549,15 @@ namespace CGL {
                       if(e == NULL) { cerr << "Must select an edge." << endl; return; }
                       selectedFeature.node->mesh.collapseEdge(e->halfedge()->edge());
 
+                      // Since the mesh may have changed, the selected and
+                      // hovered features may no longer point to valid elements.
+                      selectedFeature.invalidate();
+                      hoveredFeature.invalidate();
+                    }
+                    void MeshEdit ::vertexShift( void ) {
+                      Vertex* v = selectedFeature.element->getVertex();
+                      if (v == NULL) { cerr << "Must select a vertex." << endl; return; }
+                      selectedFeature.node->mesh.vertexShift(v->halfedge()->vertex());
                       // Since the mesh may have changed, the selected and
                       // hovered features may no longer point to valid elements.
                       selectedFeature.invalidate();

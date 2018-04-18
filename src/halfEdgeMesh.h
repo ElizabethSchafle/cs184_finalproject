@@ -670,6 +670,7 @@ namespace CGL
                                         std::vector<FaceIter> faces, int deg, VertexIter v,
                                         std::set<HalfedgeIter> incidentHalfEdges);
          VertexIter         collapseEdge(EdgeIter e0); ///< collapse a specified edge
+         VertexIter vertexShift(VertexIter v); ///< shift the position of a vertex
 
      void check_for(HalfedgeIter h) {
           for (HalfedgeIter he = halfedgesBegin(); he != halfedgesEnd(); he++) {

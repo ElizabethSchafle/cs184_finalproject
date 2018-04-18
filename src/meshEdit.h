@@ -359,6 +359,7 @@ class MeshEdit : public Renderer {
   void splitSelectedEdge( void );
   void deleteSelectedVertex (void);
   void collapseEdge(void);
+  void vertexShift(void);
   // Sets up and calls the MeshResampler with the appropiate operation.
   void mesh_up_sample();
   void mesh_down_sample();

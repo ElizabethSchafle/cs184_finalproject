@@ -671,4 +671,32 @@ namespace CGL
 
 
   }
+
+  void Vertex::computeCentroid() {
+    HalfedgeIter h = this->halfedge();
+    std::set<HalfedgeIter> incidentHalfEdges = std::set<HalfedgeIter>();
+    do
+    {
+      incidentHalfEdges.insert(h);
+      incidentHalfEdges.insert(h->twin());
+      h->next()->vertex()->halfedge() = h->next();
+      h = h->twin()->next();
+    }
+    while(h != this->halfedge());
+
+    Vector3D pos(0.0, 0.0, 0.0);
+    float count = 0.0;
+    for(HalfedgeIter h: incidentHalfEdges) {
+      pos += h->vertex()->position;
+      count += 1.0;
+    }
+    pos /= count;
+    this->centroid = pos;
+  }
+
+  VertexIter HalfedgeMesh::vertexShift(VertexIter v) {
+    v->computeCentroid();
+    v->position = v->centroid;
+    return v;
+  }
 }
