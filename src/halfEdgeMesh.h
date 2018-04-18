@@ -667,7 +667,8 @@ namespace CGL
          void        deleteMeshVertex( VertexIter v);  ///< delete a vertex and its edges
          std::set<HalfedgeIter> findIncidentEdges( VertexIter v, std::vector<HalfedgeIter>* outerHalfEdges); ///<return a list of incident edges
          void        remeshEmptyPolygon(std::vector<HalfedgeIter> outerHalfEdges,
-                                        std::vector<FaceIter> faces, int deg);
+                                        std::vector<FaceIter> faces, int deg, VertexIter v,
+                                        std::set<HalfedgeIter> incidentHalfEdges);
          VertexIter         collapseEdge(EdgeIter e0); ///< collapse a specified edge
 
          void quadraticSimplify(HalfedgeMesh & mesh); ///< simplify mesh using quadratic error metrics
