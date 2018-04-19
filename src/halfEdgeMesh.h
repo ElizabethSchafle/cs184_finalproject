@@ -145,10 +145,12 @@
 #include <vector>
 #include <utility>
 #include <iostream>
+#include <cmath>
 
 #include "CGL/CGL.h" // Standard 462 Vectors, etc.
 
 #include "mesh.h"
+
 
 using namespace std;
 using namespace CGL;
@@ -671,6 +673,9 @@ namespace CGL
                                         std::set<HalfedgeIter> incidentHalfEdges);
          VertexIter         collapseEdge(EdgeIter e0); ///< collapse a specified edge
          VertexIter vertexShift(VertexIter v); ///< shift the position of a vertex
+         bool            canFlip( EdgeIter e);
+         double         getAngle(Vector3D a, Vector3D b, Vector3D c);
+
 
      void check_for(HalfedgeIter h) {
           for (HalfedgeIter he = halfedgesBegin(); he != halfedgesEnd(); he++) {
