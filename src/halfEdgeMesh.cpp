@@ -37,10 +37,29 @@ namespace CGL {
     void Face::calculate_quadric() {
       Vector3D face_normal = normal();
       double d = dot(face_normal, halfedge()->vertex()->position);
-      Vector4D plane_p = Vector4D(face_normal.x, face_normal.y, face_normal.z, d);
+      Vector4D plane_p = Vector4D(face_normal.x, face_normal.y, face_normal.z, -d);
       Matrix4x4 face_quadric = outer(plane_p, plane_p);
       quadric = face_quadric;
     }
+  
+  void Vertex::calculate_quadratic() {
+	Matrix4x4 quadratic_sum = Matrix4x4();
+	quadratic_sum.zero(0.0);
+	
+	Matrix4x4 face_quadric;
+	HalfedgeIter h = halfedge();
+	
+	do {
+	  
+	  face_quadric = h->face()->quadric;
+	  quadratic_sum += face_quadric;
+	  
+	  h = h->twin()->next();
+	  
+	} while( h != _halfedge );
+	
+	quadric = quadratic_sum;
+  }
 
     EdgeRecord::EdgeRecord(EdgeIter &_edge) {
         edge = _edge;
@@ -52,8 +71,8 @@ namespace CGL {
         A.column(1) = Vector3D(edge_quadric.column(1).x, edge_quadric.column(1).y, edge_quadric.column(1).z);
         A.column(2) = Vector3D(edge_quadric.column(2).x, edge_quadric.column(2).y, edge_quadric.column(2).z);
 
-        Vector3D b = Vector3D(edge_quadric.column(3).x, edge_quadric.column(3).y, edge_quadric.column(3).z);
-        b = -b;
+        Vector3D b = Vector3D(-edge_quadric.column(3).x, -edge_quadric.column(3).y, -edge_quadric.column(3).z);
+        //b = -b;
 
         Vector3D x = A.inv() * b;
 
