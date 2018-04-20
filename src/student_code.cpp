@@ -24,7 +24,6 @@ namespace CGL
       evaluatedLevels.push_back(new_points);
   }
 
-
   Vector3D BezierPatch::evaluate(double u, double v) const
   {
     // TODO Part 2.
@@ -78,7 +77,6 @@ namespace CGL
   }
 
 
-
   Vector3D Vertex::normal( void ) const
   {
     // TODO Part 3.
@@ -114,7 +112,7 @@ namespace CGL
     HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9;
     h0 = e0->halfedge();
     h3 = h0->twin();
-    if (h0->face()->isBoundary() || h3->face()->isBoundary()) {
+    if (!canFlip(e0)) {
         return e0;
     }
     h1 = h0->next();
@@ -175,6 +173,83 @@ namespace CGL
     f0->halfedge() = h0;
     f1->halfedge() = h3;
     return e0;
+  }
+
+  double HalfedgeMesh::getAngle(Vector3D a, Vector3D b, Vector3D c) {
+    Vector3D ab = a - b;
+    Vector3D cb = c - b;
+
+    ab.normalize();
+    cb.normalize();
+
+    double d = dot(ab, cb);
+    d = acos(d);
+    d = d * 180 / M_PI;
+    return d;
+  }
+
+  bool HalfedgeMesh::canFlip( EdgeIter e) {
+    HalfedgeIter pq, qp;
+    pq = e->halfedge();
+    qp = pq->twin();
+
+    Vector3D p, q, r, s;
+    p = pq->vertex()->position;
+    q = qp->vertex()->position;
+    r = pq->next()->next()->vertex()->position;
+    s = qp->next()->next()->vertex()->position;
+
+    double prs, qrs, rps, prq, pqs,
+      qps, spq, rpq, psr, qsr, rqs, psq, pqr, qpr, sqp, rqp;
+    // |A−B||C−B|cos(ABC) for angle abc
+    prs = getAngle(p, r, s);
+    pqs = getAngle(p, q, s);
+    psr = getAngle(p, s, r);
+    pqr = getAngle(p, q, r);
+
+    if(!(prs > fmin(M_PI_2, pqs) && psr > fmin(M_PI_2, pqr))) {
+      return false;
+    }
+
+    qrs = getAngle(q, r, s);
+    qps = getAngle(q, p, s);
+    qsr = getAngle(q, s, r);
+    qpr = getAngle(q, p, r);
+
+    if(!(qrs > fmin(M_PI_2,  qps) && qsr > fmin(M_PI_2, qpr))) {
+      return false;
+    }
+
+    rps = getAngle(r, p, s);
+    rpq = getAngle(r, p, q);
+    spq = getAngle(s, p, q);
+    rqs = getAngle(r, q, s);
+    rqp = getAngle(r, q, p);
+    sqp = getAngle(s, q, p);
+
+    if(!(rps > fmin(rpq, spq) && rqs > fmin(rqp, sqp))) {
+      return false;
+    }
+
+    prq = getAngle(p, r, q);
+    // prs
+    // qrs
+    psq = getAngle(p, s, q);
+    // psr
+    // qsr
+
+    if(!(prq > fmin(prs,  qrs) && psq > fmin(psr, qsr))) {
+      return false;
+    }
+
+    // if boundry, return false
+    if (pq->face()->isBoundary() || qp->face()->isBoundary()) {
+      return false;
+    }
+    // check if it overlaps with another mesh element
+
+
+    return true;
   }
 
   VertexIter HalfedgeMesh::splitEdge( EdgeIter e0 )
@@ -575,7 +650,6 @@ namespace CGL
 
   }
 
-
   std::set<HalfedgeIter> HalfedgeMesh::findIncidentEdges(VertexIter v, std::vector<HalfedgeIter>* outerHalfEdges) {
       HalfedgeIter h = v->halfedge();
       std::set<HalfedgeIter> incidentHalfEdges = std::set<HalfedgeIter>();
@@ -816,6 +890,47 @@ namespace CGL
 
   }
 
+  void MeshResampler::reduceValence(HalfedgeMesh& mesh) {
+
+    for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
+
+      // collect all verts around the edge we might flip
+      VertexIter v = e->halfedge()->vertex();
+      VertexIter v1 = e->halfedge()->twin()->vertex();
+      VertexIter v2 = e->halfedge()->next()->next()->vertex();
+      VertexIter v3 = e->halfedge()->twin()->next()->next()->vertex();
+
+      // assure that absolute val of the deg of all 4 verts will decrease
+      // if less than 6 is bad as well as being more than 6, but if edge, optimal valence is 4 so account for that
+      int optimalValence = 6;
+      if (e->isBoundary()) {
+        optimalValence = 4;
+      }
+
+      int deg1 = v->degree();
+      int deg2 = v1->degree();
+      int deg3 = v2->degree();
+      int deg4 = v3->degree();
+      s
+      // using formula from slide 25 of : http://www.hao-li.com/cs599-ss2015/slides/Lecture09.1.pdf
+      int currTotalDeg = abs(deg1 - optimalValence) + abs(deg2 - optimalValence)
+                         + abs(deg3 - optimalValence) + abs(deg4 - optimalValence);
+      mesh.flipEdge(e);
+      int newDeg1 = e->halfedge()->vertex()->degree();
+      int newDeg2 = e->halfedge()->twin()->vertex()->degree();
+      int newDeg3 = e->halfedge()->next()->next()->vertex()->degree();
+      int newDeg4 = e->halfedge()->twin()->next()->next()->vertex()->degree();
+
+      int newTotalDeg = abs(deg1 - optimalValence) + abs(deg2 - optimalValence)
+                         + abs(deg3 - optimalValence) + abs(deg4 - optimalValence);
+
+      // if flip doesn't improve valence, put it back
+      if (currTotalDeg >= newTotalDeg) {
+        mesh.flipEdge(e);
+      }
+    }
+  }
+
   void MeshResampler::incrementalRemeshing(HalfedgeMesh& mesh) {
     float L = avgEdgeLength(mesh);
     float L_max = (4.0 / 3.0) * L;
@@ -823,6 +938,8 @@ namespace CGL
 
     std::vector<EdgeIter> toSplit = std::vector<EdgeIter>();
     std::vector<EdgeIter> toCollapse = std::vector<EdgeIter>();
+    std::vector<EdgeIter> toFlip = std::vector<EdgeIter>();
+
 
 
     for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
@@ -841,6 +958,25 @@ namespace CGL
       mesh.collapseEdge(e);
     }
 
+    int total = 0;
+    int g0 = 0;
+    int l0 = 0;
+
+    for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
+     if(6 > e->halfedge()->vertex()->degree()) {
+       g0 += 1;
+     } else if (6 < e->halfedge()->vertex()->degree()) {
+       l0 += 1;
+     }
+      total += 1;
+    }
+
+    reduceValence(mesh);
+
+
     centerVertices(mesh);
   }
+
+
+
 }

@@ -22,6 +22,7 @@ namespace CGL {
     void centerVertices(HalfedgeMesh& mesh);
     float avgEdgeLength(HalfedgeMesh& mesh);
     void incrementalRemeshing(HalfedgeMesh& mesh);
+    void reduceValence(HalfedgeMesh& mesh);
   };
 }
 
