@@ -788,11 +788,6 @@ namespace CGL
       EdgeRecord cheapest_record = m_queue.top();
       m_queue.pop();
 	  
-	  int num_faces = mesh.nFaces();
-	
-	  bool stop = num_faces == 1890;
-	  
-	  
       EdgeIter cheap_edge = cheapest_record.edge;
       Matrix4x4 new_quadric = cheap_edge->halfedge()->vertex()->quadric + cheap_edge->halfedge()->twin()->vertex()->quadric;
 
