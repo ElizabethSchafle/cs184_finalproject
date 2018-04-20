@@ -291,16 +291,17 @@ namespace CGL
     e7->isNew = true;
     return e0->halfedge()->vertex();
   }
-
-
+  
+  /*
+  Old collapse edge
   VertexIter HalfedgeMesh::collapseEdge(EdgeIter e0)
   {
     // TODO Brian Ho.
     // TODO This method will delete the given edge and combine the endpoints.
 
-    // if (e0->halfedge()->vertex()->isBoundary() || e0->halfedge()->twin()->vertex()->isBoundary()) {
-    //   return;
-    // }
+    //if (e0->halfedge()->vertex()->isBoundary() || e0->halfedge()->twin()->vertex()->isBoundary()) {
+	  //return e0->halfedge()->vertex();
+    //}
 
     // Halfedges
     HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
@@ -343,20 +344,20 @@ namespace CGL
 
     // New coordinate of the singular vertex
     Vector3D newVertexLocation = (v0->position + v1->position) / 2.0;
-
+	
+	HalfedgeIter another = h1;
+	do
+	{
+	  another->vertex() = v0;
+	  another = another->twin()->next();
+	} while (another != h1);
 
     // setNeighbors(next, twin, vertex, edge, face)
     h9->setNeighbors(h10, h6, v2, e1, f4);
     h8->setNeighbors(h11, h7, v0, e3, f5);
     h6->setNeighbors(h6->next(), h9, v0, e1, f2);
     h7->setNeighbors(h7->next(), h8, v3, e3, f3);
-
-    HalfedgeIter dummy = h7->next();
-    while (dummy != h6) {
-      dummy->vertex() = v0;
-      dummy = dummy->twin()->next();
-    }
-
+	
     // Vertices
     v0->halfedge() = h8;
     v2->halfedge() = h9;
@@ -380,9 +381,11 @@ namespace CGL
 
     deleteVertex(v1);
 
-    deleteEdge(e0);
-    deleteEdge(e2);
-    deleteEdge(e4);
+	deleteEdge(e0);
+	if (e2 != e4) {
+	  deleteEdge(e4);
+	}
+	deleteEdge(e2);
 
     deleteFace(f0);
     deleteFace(f1);
@@ -391,6 +394,100 @@ namespace CGL
     v0->position = newVertexLocation;
     return v0;
 
+  }
+   */
+  
+  VertexIter HalfedgeMesh::collapseEdge( EdgeIter e0 ) {
+	
+	HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9;
+	h0 = e0->halfedge();
+	h1 = h0->next();
+	h2 = h1->next();
+	h3 = h0->twin();
+	h4 = h3->next();
+	h5 = h4->next();
+	h6 = h5->twin();
+	h7 = h1->twin();
+	h8 = h2->twin();
+	h9 = h4->twin();
+	
+	VertexIter v0, v1, v2, v3;
+	v0 = h0->vertex();
+	v1 = h3->vertex();
+	v2 = h5->vertex();
+	v3 = h2->vertex();
+	
+	EdgeIter e1, e2, e3, e4;
+	e1 = h5->edge();
+	e2 = h1->edge();
+	e3 = h2->edge();
+	e4 = h4->edge();
+	
+	FaceIter f0, f1;
+	f0 = h0->face();
+	f1 = h3->face();
+	
+	
+	/// Replacing the edge with a midpoint
+	VertexIter midpoint = newVertex();
+	
+	Vector3D midpoint_position = (v0->position + v1->position) / 2.0;
+	
+	midpoint->position = midpoint_position;
+	
+	///Setting the right outside halfedges to have midpoint vertex
+	HalfedgeIter right_outside_halfedge = h7->next();
+	do
+	{
+	  right_outside_halfedge->setNeighbors(right_outside_halfedge->next(), right_outside_halfedge->twin(), midpoint, right_outside_halfedge->edge(), right_outside_halfedge->face());
+	  right_outside_halfedge = right_outside_halfedge->twin()->next();
+	  
+	} while (right_outside_halfedge != h6);
+	
+	
+	///Setting the left outside haldedges to have midpoint vertex
+	HalfedgeIter left_outside_halfedge = h9->next();
+	do
+	{
+	  left_outside_halfedge->setNeighbors(left_outside_halfedge->next(), left_outside_halfedge->twin(), midpoint, left_outside_halfedge->edge(), left_outside_halfedge->face());
+	  left_outside_halfedge = left_outside_halfedge->twin()->next();
+	  
+	} while (left_outside_halfedge != h8);
+	
+	///Setting halfedges that will be modifed
+	h6->setNeighbors(h6->next(), h9, midpoint, e4, h6->face());
+	h7->setNeighbors(h7->next(), h8, v3, e3, h7->face());
+	h8->setNeighbors(h8->next(), h7, midpoint, e3, h8->face());
+	h9->setNeighbors(h9->next(), h6, v2, e4, h9->face());
+	
+	///Setting midpoint halfedge
+	midpoint->halfedge() = h6;
+	
+	v2->halfedge() = h9;
+	v3->halfedge() = h7;
+	
+	e4->halfedge() = h6;
+	e3->halfedge() = h8;
+	
+	///Deleting halfedges since they point to everything
+	deleteHalfedge(h0);
+	deleteHalfedge(h1);
+	deleteHalfedge(h2);
+	deleteHalfedge(h3);
+	deleteHalfedge(h4);
+	deleteHalfedge(h5);
+	
+	deleteFace(f0);
+	deleteFace(f1);
+	
+	deleteEdge(e0);
+	deleteEdge(e1);
+	deleteEdge(e2);
+	
+	deleteVertex(v0);
+	deleteVertex(v1);
+	
+	return midpoint;
   }
 
   void MeshResampler::upsample( HalfedgeMesh& mesh )
@@ -613,10 +710,15 @@ namespace CGL
     ///  Set this number to 1/4th the number of triangles in the input (since subdivision will give you a factor of 4 in the opposite direction)
     Size target_triangles = mesh.nFaces() / 4;
 
-    while (mesh.nFaces() > target_triangles) {
+    while (mesh.nFaces() > target_triangles && !m_queue.empty()) {
       EdgeRecord cheapest_record = m_queue.top();
       m_queue.pop();
-
+	  
+	  int num_faces = mesh.nFaces();
+	
+	  bool stop = num_faces == 1890;
+	  
+	  
       EdgeIter cheap_edge = cheapest_record.edge;
       Matrix4x4 new_quadric = cheap_edge->halfedge()->vertex()->quadric + cheap_edge->halfedge()->twin()->vertex()->quadric;
 
@@ -649,10 +751,8 @@ namespace CGL
       /// Collapse the edge
       VertexIter new_vertex = mesh.collapseEdge(cheap_edge);
 
-
       ///  Set the quadric of the new vertex to the quadric computed in Step 2.
       new_vertex->quadric = new_quadric;
-
 
       ///  Insert any edge touching the new vertex into the queue, creating new edge records for each of them.
       HalfedgeIter new_vertex_h = new_vertex->halfedge();

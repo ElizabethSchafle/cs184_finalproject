@@ -90,6 +90,10 @@ namespace CGL
     {
       queue.erase( queue.begin() );
     }
+	
+	bool empty( void ) {
+	  return queue.empty();
+	}
 
   protected:
     set<T> queue;

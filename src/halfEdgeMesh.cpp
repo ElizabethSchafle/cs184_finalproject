@@ -39,30 +39,30 @@ namespace CGL {
       double d = dot(face_normal, halfedge()->vertex()->position);
       Vector4D plane_p = Vector4D(face_normal.x, face_normal.y, face_normal.z, -d);
       Matrix4x4 face_quadric = outer(plane_p, plane_p);
-      quadric = face_quadric;
+      this->quadric = face_quadric;
     }
   
   void Vertex::calculate_quadratic() {
 	Matrix4x4 quadratic_sum = Matrix4x4();
 	quadratic_sum.zero(0.0);
 	
-	Matrix4x4 face_quadric;
+	
 	HalfedgeIter h = halfedge();
 	
 	do {
 	  
-	  face_quadric = h->face()->quadric;
+	  Matrix4x4 face_quadric = h->face()->quadric;
 	  quadratic_sum += face_quadric;
 	  
 	  h = h->twin()->next();
 	  
-	} while( h != _halfedge );
+	} while( h != halfedge() );
 	
-	quadric = quadratic_sum;
+	this->quadric = quadratic_sum;
   }
 
     EdgeRecord::EdgeRecord(EdgeIter &_edge) {
-        edge = _edge;
+	  
         HalfedgeIter h = _edge->halfedge();
         Matrix4x4 edge_quadric = h->vertex()->quadric + h->twin()->vertex()->quadric;
         Matrix3x3 A = Matrix3x3();
@@ -71,14 +71,16 @@ namespace CGL {
         A.column(1) = Vector3D(edge_quadric.column(1).x, edge_quadric.column(1).y, edge_quadric.column(1).z);
         A.column(2) = Vector3D(edge_quadric.column(2).x, edge_quadric.column(2).y, edge_quadric.column(2).z);
 
-        Vector3D b = Vector3D(-edge_quadric.column(3).x, -edge_quadric.column(3).y, -edge_quadric.column(3).z);
-        //b = -b;
+        Vector3D b = Vector3D(edge_quadric.column(3).x, edge_quadric.column(3).y, edge_quadric.column(3).z);
+        b = -b;
 
         Vector3D x = A.inv() * b;
 
         optimalPoint = x;
-
-        score = dot(x, edge_quadric * x);
+	  	Vector4D x_homogeneous = Vector4D(x.x, x.y, x.z, 1.0);
+        score = dot(x_homogeneous, edge_quadric * x_homogeneous);
+	  
+	  	edge = _edge;
     }
 
     void HalfedgeMesh :: build( const vector< vector<Index> >& polygons,
