@@ -473,7 +473,8 @@ namespace CGL
    */
   
   VertexIter HalfedgeMesh::collapseEdge( EdgeIter e0 ) {
-	
+
+
 	HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9;
 	h0 = e0->halfedge();
 	h1 = h0->next();
@@ -485,65 +486,65 @@ namespace CGL
 	h7 = h1->twin();
 	h8 = h2->twin();
 	h9 = h4->twin();
-	
+
 	VertexIter v0, v1, v2, v3;
 	v0 = h0->vertex();
 	v1 = h3->vertex();
 	v2 = h5->vertex();
 	v3 = h2->vertex();
-	
+
 	EdgeIter e1, e2, e3, e4;
 	e1 = h5->edge();
 	e2 = h1->edge();
 	e3 = h2->edge();
 	e4 = h4->edge();
-	
+
 	FaceIter f0, f1;
 	f0 = h0->face();
 	f1 = h3->face();
-	
-	
+
+
 	/// Replacing the edge with a midpoint
 	VertexIter midpoint = newVertex();
-	
+
 	Vector3D midpoint_position = (v0->position + v1->position) / 2.0;
-	
+
 	midpoint->position = midpoint_position;
-	
+
 	///Setting the right outside halfedges to have midpoint vertex
 	HalfedgeIter right_outside_halfedge = h7->next();
 	do
 	{
 	  right_outside_halfedge->setNeighbors(right_outside_halfedge->next(), right_outside_halfedge->twin(), midpoint, right_outside_halfedge->edge(), right_outside_halfedge->face());
 	  right_outside_halfedge = right_outside_halfedge->twin()->next();
-	  
+
 	} while (right_outside_halfedge != h6);
-	
-	
+
+
 	///Setting the left outside haldedges to have midpoint vertex
 	HalfedgeIter left_outside_halfedge = h9->next();
 	do
 	{
 	  left_outside_halfedge->setNeighbors(left_outside_halfedge->next(), left_outside_halfedge->twin(), midpoint, left_outside_halfedge->edge(), left_outside_halfedge->face());
 	  left_outside_halfedge = left_outside_halfedge->twin()->next();
-	  
+
 	} while (left_outside_halfedge != h8);
-	
+
 	///Setting halfedges that will be modifed
 	h6->setNeighbors(h6->next(), h9, midpoint, e4, h6->face());
 	h7->setNeighbors(h7->next(), h8, v3, e3, h7->face());
 	h8->setNeighbors(h8->next(), h7, midpoint, e3, h8->face());
 	h9->setNeighbors(h9->next(), h6, v2, e4, h9->face());
-	
+
 	///Setting midpoint halfedge
 	midpoint->halfedge() = h6;
-	
+
 	v2->halfedge() = h9;
 	v3->halfedge() = h7;
-	
+
 	e4->halfedge() = h6;
 	e3->halfedge() = h8;
-	
+
 	///Deleting halfedges since they point to everything
 	deleteHalfedge(h0);
 	deleteHalfedge(h1);
@@ -551,17 +552,17 @@ namespace CGL
 	deleteHalfedge(h3);
 	deleteHalfedge(h4);
 	deleteHalfedge(h5);
-	
+
 	deleteFace(f0);
 	deleteFace(f1);
-	
+
 	deleteEdge(e0);
 	deleteEdge(e1);
 	deleteEdge(e2);
-	
+
 	deleteVertex(v0);
 	deleteVertex(v1);
-	
+
 	return midpoint;
   }
 
@@ -940,18 +941,26 @@ namespace CGL
 
     for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
       if (e->length() > L_max) {
-        toSplit.push_back(e);
-      } else if (e->length() < L_min) {
-        toCollapse.push_back(e);
+        mesh.splitEdge(e);
       }
     }
 
-    for(EdgeIter e: toSplit)  {
-      mesh.splitEdge(e);
-    }
 
-    for(EdgeIter e: toCollapse) {
-      mesh.collapseEdge(e);
+    // original logic, was buggy because some edges needed to be collapsed again to be long enough.
+//    for(EdgeIter e: toCollapse) {
+//      mesh.collapseEdge(e);
+//    }
+
+    for(EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
+      if(e->length() < L_min) {
+        int numEdges = mesh.nEdges();
+        mesh.collapseEdge(e);
+        int currEdges = mesh.nEdges();
+        int diff = abs(numEdges - currEdges);
+        if(diff > 0) {
+          e = mesh.edgesBegin();
+        }
+      }
     }
 
     int total = 0;
