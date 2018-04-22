@@ -906,7 +906,7 @@ namespace CGL
       int deg2 = v1->degree();
       int deg3 = v2->degree();
       int deg4 = v3->degree();
-      s
+	  
       // using formula from slide 25 of : http://www.hao-li.com/cs599-ss2015/slides/Lecture09.1.pdf
       int currTotalDeg = abs(deg1 - optimalValence) + abs(deg2 - optimalValence)
                          + abs(deg3 - optimalValence) + abs(deg4 - optimalValence);
