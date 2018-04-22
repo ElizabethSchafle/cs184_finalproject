@@ -877,6 +877,7 @@ namespace CGL
     float numEdges = 0.0;
     for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
       totalLen += e->length();
+      numEdges++;
     }
     if (numEdges == 0.0) {
       return 0.0;
