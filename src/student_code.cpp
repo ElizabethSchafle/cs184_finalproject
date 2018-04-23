@@ -484,7 +484,6 @@ namespace CGL
     HalfedgeIter checker = curr->twin();
 
     do {
-
       do {
         // check if verts are the same
         if (checker->twin()->vertex() == curr->twin()->vertex()) {
@@ -963,16 +962,10 @@ namespace CGL
       // using formula from slide 25 of : http://www.hao-li.com/cs599-ss2015/slides/Lecture09.1.pdf
       int currTotalDeg = abs(deg1 - optimalValence) + abs(deg2 - optimalValence)
                          + abs(deg3 - optimalValence) + abs(deg4 - optimalValence);
-      mesh.flipEdge(e);
-      int newDeg1 = e->halfedge()->vertex()->degree();
-      int newDeg2 = e->halfedge()->twin()->vertex()->degree();
-      int newDeg3 = e->halfedge()->next()->next()->vertex()->degree();
-      int newDeg4 = e->halfedge()->twin()->next()->next()->vertex()->degree();
 
-      int newTotalDeg = abs(deg1 - optimalValence) + abs(deg2 - optimalValence)
-                         + abs(deg3 - optimalValence) + abs(deg4 - optimalValence);
+      int newTotalDeg = abs(deg1 - optimalValence - 1) + abs(deg2 - optimalValence - 1)
+      + abs(deg3 - optimalValence + 1) + abs(deg4 - optimalValence + 1);
 
-      // if flip doesn't improve valence, put it back
       if (currTotalDeg >= newTotalDeg) {
         mesh.flipEdge(e);
       }
