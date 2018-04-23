@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<style>
+  body {
+    padding: 100px;
+    width: 1000px;
+    margin: auto;
+    text-align: left;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif;
+    color: #121212;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+</style>
+<title>Mesh Downsampling and Remeshing</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rel="icon" href="images/simplify_and_remesh_cow.png">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+</head>
+
+
+<body>
+
+<h1 align="middle">CS 184 Final Project: Mesh Downsampling and Remeshing</h1>
+<h2 align="middle">Brian Ho, Elizabeth Schafle, Jose Chavez</h2>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/simplify_and_remesh_cow.png" align="middle" width="400px"/>
+        <img src="images/simplify_peter_2.png" align="middle" width="394px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h2 align="left">Milestone Report</h2>
+<h3 align="left">What we accomplished:</h3>
+<p>Over the past three weeks, we were able to develop a couple of functions for our extension of Meshedit. These functions allowed us to properly implement mesh downsampling, as well as give us a head start on various remeshing algorithms. Most of our time was invested on collapseEdge() throughout these past weeks; all three of us had to work on the function in order for it to work as a separate function, as well as a helper function for both mesh downsampling and isotropic remeshing. We also implemented a naive method for vertex deletion, and other helper functions to find incident edges, reduce valence, and compute new centroid positions of vertices.</p>
+<p>We are confident to say that we have completed the implementation of mesh simplification using the Quadric Simplification Algorithm, and we currently have a basic process of using isotropic remeshing to remesh an object.</p>
+<h3 align="left">Preliminary results:</h3>
+<p>Here are some preliminary results of certain functions we implemented:</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/collapse_teapot.png" align="middle" width="400px"/>
+        <img src="images/collapsed_teapot.png" align="middle" width="400px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Above is the result of collapsing the highlighted edge in teapot.dae.</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/simplify_peter_1.png" align="middle" width="400px"/>
+        <img src="images/simplify_peter_2.png" align="middle" width="400px"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <img src="images/simplify_peter_3.png" align="middle" width="400px"/>
+        <img src="images/simplify_peter_4.png" align="middle" width="400px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Above is the result of downsampling cow.dae.</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh_cow_1.png" align="middle" width="400px"/>
+        <img src="images/remesh_cow_2.png" align="middle" width="400px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Above is the result of remeshing cow.dae.</p>
+<h3 align="left">Progress related to project plan/any updates to the work plan:</h3>
+<p>According to the project plan, we are quite on track. However, while working on the downsampling methods, we decided not to implement the vertex clustering algorithm because we realized it was significantly less efficient in terms of the data we needed to store (our planned structure to keep track of the vertices was going to be an oct-tree). We may need some reworking on our isotropic remeshing algorithm because we believe it is not fully refined. This would be the only update to the work plan we have created in the document, so we believe that we are right on track with our last algorithm, adaptive remeshing, to possibly be completed before our final deadline.</p>
+<h3 align="left">Important external links:</h3>
+<p><a href="https://www.youtube.com/watch?v=9MOaKqvEs-o&feature=youtu.be">Video</a></p>
+<p><a href="https://docs.google.com/document/d/1B1IANrvQMf2fI0fmDcV-nWVe7zsE1OBrSXtUwJJR6Uc/edit?usp=sharing">Project Proposal</a></p>
+<p><a href="https://docs.google.com/presentation/d/1GfDvUWTa2WCMgL4leKjg9gH9aSEkm-Zr_claGWy9D4I/edit?usp=sharing">Slides</a></p>
+
+
+</body>
+</html>

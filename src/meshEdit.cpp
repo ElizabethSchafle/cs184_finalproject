@@ -216,7 +216,7 @@ namespace CGL {
       }
 
       string MeshEdit::info() {
-        return "Assignment 2: MeshEdit";
+        return "Final Project: MeshEdit";
       }
 
       void MeshEdit::key_event( char key )
@@ -242,17 +242,17 @@ namespace CGL {
           case 'I':
           showHUD = !showHUD;
           break;
-				
+
           case 'f':
           case 'F':
           flipSelectedEdge();
           break;
-				
+
           case 's':
           case 'S':
           splitSelectedEdge();
           break;
-				
+
           case 'v':
           case 'V':
           deleteSelectedVertex();
@@ -987,7 +987,7 @@ namespace CGL {
                   }
 				  void MeshEdit::mesh_down_sample( void ) {
 					HalfedgeMesh* mesh;
-					
+
 					// If an element is selected, resample the mesh containing that
 					// element; otherwise, resample the first mesh in the scene.
 					if( selectedFeature.isValid() )
@@ -998,9 +998,9 @@ namespace CGL {
 					{
 					  mesh = &( meshNodes.begin()->mesh );
 					}
-					
+
 					resampler.quadraticSimplify(*mesh);
-					
+
 					// Since the mesh may have changed, the selected and
 					// hovered features may no longer point to valid elements.
 					selectedFeature.invalidate();
