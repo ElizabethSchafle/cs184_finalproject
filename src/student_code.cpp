@@ -954,6 +954,8 @@ namespace CGL
     for(EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
       if(e->length() < L_min) {
         int numEdges = mesh.nEdges();
+		cout << "checking edge" << endl;
+		mesh.check_for(e);
         mesh.collapseEdge(e);
         int currEdges = mesh.nEdges();
         int diff = abs(numEdges - currEdges);
