@@ -419,7 +419,7 @@ namespace CGL
 
     // New coordinate of the singular vertex
     Vector3D newVertexLocation = (v0->position + v1->position) / 2.0;
-	
+
 	HalfedgeIter another = h1;
 	do
 	{
@@ -432,7 +432,7 @@ namespace CGL
     h8->setNeighbors(h11, h7, v0, e3, f5);
     h6->setNeighbors(h6->next(), h9, v0, e1, f2);
     h7->setNeighbors(h7->next(), h8, v3, e3, f3);
-	
+
     // Vertices
     v0->halfedge() = h8;
     v2->halfedge() = h9;
@@ -471,99 +471,150 @@ namespace CGL
 
   }
    */
+
+
+  /** return num verts connected to e0 **/
+  int HalfedgeMesh::numberOfNeighboringVerts( EdgeIter e0) {
+    int numNeighbors = 0;
+    HalfedgeIter h1 = e0->halfedge();
+    HalfedgeIter h2 = h1->twin();
+    HalfedgeIter curr = h1;
+    VertexIter currVert;
+    VertexIter checkerVert;
+    HalfedgeIter checker = curr->twin();
+
+    do {
+
+      do {
+        // check if verts are the same
+        if (checker->twin()->vertex() == curr->twin()->vertex()) {
+          numNeighbors += 1;
+        }
+        // go to the next edge w/ checker
+        checker = checker->twin()->next();
+      } while (checker != h2);
+      curr = curr->twin()->next();
+    } while (curr != h1);
+
+    return numNeighbors;
+  }
   
-  VertexIter HalfedgeMesh::collapseEdge( EdgeIter e0 ) {
+  VertexIter HalfedgeMesh::collapseEdge( EdgeIter e ) {
+
+    // check for the edge case of less than 1 or more than 2 incident verts to the edge
+    // if so, dont collapse, return the edges vertex.
+    if (numberOfNeighboringVerts(e) != 2) {
+      return e->halfedge()->vertex();
+    }
+
+    // dont collapse boundry edges
+    if (e->isBoundary()) {
+      return VertexIter();
+    }
+
+    HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10;
+    h0 = e->halfedge();
+    h1 = h0->next();
+    h2 = h1->next();
+    h3 = h0->twin();
+    h4 = h3->next();
+    h5 = h4->next();
+    h6 = h5->twin();
+    h7 = h1->twin();
+    h8 = h2->twin();
+    h9 = h4->twin();
+
+    VertexIter v0, v1, v2, v3;
+	  v0 = h0->vertex();
+	  v1 = h3->vertex();
+	  v2 = h7->vertex();
+	  v3 = h9->vertex();
+
+    EdgeIter e1, e2, e3, e4;
+	  e1 = h5->edge();
+	  e2 = h1->edge();
+	  e3 = h2->edge();
+    e4 = h4->edge();
+
+   	FaceIter f0, f1;
+   	f0 = h0->face();
+   	f1 = h3->face();
+
+    VertexIter midpoint = newVertex();
+
+    Vector3D midpoint_position = (v0->position + v1->position) / 2.0;
+
+    if( v0->isBoundary() ) {
+      midpoint->position = v0->position;
+    } else if( v1->isBoundary() ) {
+      midpoint->position = v1->position;
+    } else {
+      midpoint->position = midpoint_position;
+    }
+
+    // create new mesh elements
+    EdgeIter enew0 = newEdge();
+    EdgeIter enew1 = newEdge();
+
+    midpoint->halfedge() = h6;
 
 
-	HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9;
-	h0 = e0->halfedge();
-	h1 = h0->next();
-	h2 = h1->next();
-	h3 = h0->twin();
-	h4 = h3->next();
-	h5 = h4->next();
-	h6 = h5->twin();
-	h7 = h1->twin();
-	h8 = h2->twin();
-	h9 = h4->twin();
+    ///Setting the right outside halfedges to have midpoint vertex
+    HalfedgeIter right_outside_halfedge = v0->halfedge();
+    do
+    {
+      right_outside_halfedge->setNeighbors(right_outside_halfedge->next(),
+                                           right_outside_halfedge->twin(), midpoint,
+                                           right_outside_halfedge->edge(), right_outside_halfedge->face());
+      right_outside_halfedge = right_outside_halfedge->twin()->next();
 
-	VertexIter v0, v1, v2, v3;
-	v0 = h0->vertex();
-	v1 = h3->vertex();
-	v2 = h5->vertex();
-	v3 = h2->vertex();
-
-	EdgeIter e1, e2, e3, e4;
-	e1 = h5->edge();
-	e2 = h1->edge();
-	e3 = h2->edge();
-	e4 = h4->edge();
-
-	FaceIter f0, f1;
-	f0 = h0->face();
-	f1 = h3->face();
+    } while (right_outside_halfedge != v0->halfedge());
 
 
-	/// Replacing the edge with a midpoint
-	VertexIter midpoint = newVertex();
+    ///Setting the left outside haldedges to have midpoint vertex
+    HalfedgeIter left_outside_halfedge = v1->halfedge();
+    do
+    {
+      left_outside_halfedge->setNeighbors(left_outside_halfedge->next(),
+                                          left_outside_halfedge->twin(), midpoint,
+                                          left_outside_halfedge->edge(), left_outside_halfedge->face());
+      left_outside_halfedge = left_outside_halfedge->twin()->next();
 
-	Vector3D midpoint_position = (v0->position + v1->position) / 2.0;
+    } while (left_outside_halfedge != v1->halfedge());
 
-	midpoint->position = midpoint_position;
+    h6->setNeighbors(h6->next(), h9, h6->vertex(), enew1, h6->face());
+    h7->setNeighbors(h7->next(), h8, h7->vertex(), enew0, h7->face());
+    h8->setNeighbors(h8->next(), h7, h8->vertex(), enew0, h8->face());
+    h9->setNeighbors(h9->next(), h6, h9->vertex(), enew1, h9->face());
 
-	///Setting the right outside halfedges to have midpoint vertex
-	HalfedgeIter right_outside_halfedge = h7->next();
-	do
-	{
-	  right_outside_halfedge->setNeighbors(right_outside_halfedge->next(), right_outside_halfedge->twin(), midpoint, right_outside_halfedge->edge(), right_outside_halfedge->face());
-	  right_outside_halfedge = right_outside_halfedge->twin()->next();
-
-	} while (right_outside_halfedge != h6);
+    enew0->halfedge() = h8;
+    enew1->halfedge() = h6;
+    v2->halfedge() = h7;
+    v3->halfedge() = h9;
 
 
-	///Setting the left outside haldedges to have midpoint vertex
-	HalfedgeIter left_outside_halfedge = h9->next();
-	do
-	{
-	  left_outside_halfedge->setNeighbors(left_outside_halfedge->next(), left_outside_halfedge->twin(), midpoint, left_outside_halfedge->edge(), left_outside_halfedge->face());
-	  left_outside_halfedge = left_outside_halfedge->twin()->next();
+    //Deleting halfedges since they point to everything
+    deleteHalfedge(h0);
+    deleteHalfedge(h1);
+    deleteHalfedge(h2);
+    deleteHalfedge(h3);
+    deleteHalfedge(h4);
+    deleteHalfedge(h5);
 
-	} while (left_outside_halfedge != h8);
+    deleteFace(f0);
+    deleteFace(f1);
 
-	///Setting halfedges that will be modifed
-	h6->setNeighbors(h6->next(), h9, midpoint, e4, h6->face());
-	h7->setNeighbors(h7->next(), h8, v3, e3, h7->face());
-	h8->setNeighbors(h8->next(), h7, midpoint, e3, h8->face());
-	h9->setNeighbors(h9->next(), h6, v2, e4, h9->face());
+    //delete all of the original edges
+    deleteEdge(e);
+    deleteEdge(e1);
+    deleteEdge(e2);
+    deleteEdge(e3);
+    deleteEdge(e4);
 
-	///Setting midpoint halfedge
-	midpoint->halfedge() = h6;
+    deleteVertex(v0);
+    deleteVertex(v1);
 
-	v2->halfedge() = h9;
-	v3->halfedge() = h7;
-
-	e4->halfedge() = h6;
-	e3->halfedge() = h8;
-
-	///Deleting halfedges since they point to everything
-	deleteHalfedge(h0);
-	deleteHalfedge(h1);
-	deleteHalfedge(h2);
-	deleteHalfedge(h3);
-	deleteHalfedge(h4);
-	deleteHalfedge(h5);
-
-	deleteFace(f0);
-	deleteFace(f1);
-
-	deleteEdge(e0);
-	deleteEdge(e1);
-	deleteEdge(e2);
-
-	deleteVertex(v0);
-	deleteVertex(v1);
-
-	return midpoint;
+    return midpoint;
   }
 
   void MeshResampler::upsample( HalfedgeMesh& mesh )
@@ -695,7 +746,7 @@ namespace CGL
 
 
       // if the current vertices he is one thats going to be deleted, set it to the new one.
-      // still something wrong with the pointers... 
+      // still something wrong with the pointers...
       if(current->halfedge()->next()->vertex() == v) {
         current->halfedge() = h1;
       }
@@ -945,12 +996,6 @@ namespace CGL
       }
     }
 
-
-    // original logic, was buggy because some edges needed to be collapsed again to be long enough.
-//    for(EdgeIter e: toCollapse) {
-//      mesh.collapseEdge(e);
-//    }
-
     for(EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
       if(e->length() < L_min) {
         int numEdges = mesh.nEdges();
@@ -979,8 +1024,6 @@ namespace CGL
     }
 
     reduceValence(mesh);
-
-
     centerVertices(mesh);
   }
 

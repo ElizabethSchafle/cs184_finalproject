@@ -644,6 +644,7 @@ namespace CGL
          VertexIter vertexShift(VertexIter v); ///< shift the position of a vertex
          bool            canFlip( EdgeIter e);
          double         getAngle(Vector3D a, Vector3D b, Vector3D c);
+         int numberOfNeighboringVerts( EdgeIter e0);
 
 
      void check_for(HalfedgeIter h) {
