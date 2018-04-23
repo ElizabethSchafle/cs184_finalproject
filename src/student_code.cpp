@@ -525,15 +525,15 @@ namespace CGL
     h9 = h4->twin();
 
     VertexIter v0, v1, v2, v3;
-	  v0 = h0->vertex();
-	  v1 = h3->vertex();
-	  v2 = h7->vertex();
-	  v3 = h9->vertex();
+	v0 = h0->vertex();
+	v1 = h3->vertex();
+	v2 = h7->vertex();
+	v3 = h9->vertex();
 
     EdgeIter e1, e2, e3, e4;
-	  e1 = h5->edge();
-	  e2 = h1->edge();
-	  e3 = h2->edge();
+	e1 = h5->edge();
+	e2 = h1->edge();
+	e3 = h2->edge();
     e4 = h4->edge();
 
    	FaceIter f0, f1;
@@ -999,8 +999,6 @@ namespace CGL
     for(EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
       if(e->length() < L_min) {
         int numEdges = mesh.nEdges();
-		cout << "checking edge" << endl;
-		mesh.check_for(e);
         mesh.collapseEdge(e);
         int currEdges = mesh.nEdges();
         int diff = abs(numEdges - currEdges);
