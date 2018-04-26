@@ -508,7 +508,7 @@ namespace CGL
 
     // dont collapse boundry edges
     if (e->isBoundary()) {
-      return VertexIter();
+      return e->halfedge()->vertex();
     }
 
     HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10;
@@ -911,16 +911,21 @@ namespace CGL
     this->centroid = pos;
   }
 
-  VertexIter HalfedgeMesh::vertexShift(VertexIter v) {
+  VertexIter HalfedgeMesh::computeCentroids(VertexIter v){
     v->computeCentroid();
-    v->position = v->centroid;
     return v;
   }
 
   void MeshResampler::centerVertices(HalfedgeMesh& mesh) {
     for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
-      mesh.vertexShift(v);
+      v->computeCentroid();
     }
+	for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
+	  Vector3D diff_vec = v->centroid - v->position;
+	  Vector3D vertex_normal = v->normal();
+	  diff_vec = diff_vec - dot(vertex_normal, diff_vec) * vertex_normal;
+	  v->position = v->position + (4.0/5.0) * diff_vec;
+	}
   }
 
   float MeshResampler::avgEdgeLength(HalfedgeMesh& mesh) {
@@ -966,7 +971,7 @@ namespace CGL
       int newTotalDeg = abs(deg1 - optimalValence - 1) + abs(deg2 - optimalValence - 1)
       + abs(deg3 - optimalValence + 1) + abs(deg4 - optimalValence + 1);
 
-      if (currTotalDeg >= newTotalDeg) {
+      if (currTotalDeg > newTotalDeg) {
         mesh.flipEdge(e);
       }
     }
@@ -976,19 +981,18 @@ namespace CGL
     float L = avgEdgeLength(mesh);
     float L_max = (4.0 / 3.0) * L;
     float L_min = (4.0 / 5.0) * L;
-
-    std::vector<EdgeIter> toSplit = std::vector<EdgeIter>();
-    std::vector<EdgeIter> toCollapse = std::vector<EdgeIter>();
-    std::vector<EdgeIter> toFlip = std::vector<EdgeIter>();
-
-
-
-    for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
-      if (e->length() > L_max) {
-        mesh.splitEdge(e);
-      }
-    }
-
+	
+	Size n = mesh.nEdges();
+	EdgeIter e = mesh.edgesBegin();
+	for (int i = 0; i < n; i++) {
+	  EdgeIter nextEdge = e;
+	  nextEdge++;
+	  if (e->length() > L_max) {
+		mesh.splitEdge(e);
+	  }
+	  e = nextEdge;
+	}
+	
     for(EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
       if(e->length() < L_min) {
         int numEdges = mesh.nEdges();
@@ -1000,20 +1004,7 @@ namespace CGL
         }
       }
     }
-
-    int total = 0;
-    int g0 = 0;
-    int l0 = 0;
-
-    for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
-     if(6 > e->halfedge()->vertex()->degree()) {
-       g0 += 1;
-     } else if (6 < e->halfedge()->vertex()->degree()) {
-       l0 += 1;
-     }
-      total += 1;
-    }
-
+	
     reduceValence(mesh);
     centerVertices(mesh);
   }

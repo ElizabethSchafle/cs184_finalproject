@@ -1576,13 +1576,13 @@ namespace CGL {
                       selectedFeature.invalidate();
                       hoveredFeature.invalidate();
                     }
-                    void MeshEdit ::vertexShift( void ) {
-                      Vertex* v = selectedFeature.element->getVertex();
-                      if (v == NULL) { cerr << "Must select a vertex." << endl; return; }
-                      selectedFeature.node->mesh.vertexShift(v->halfedge()->vertex());
-                      // Since the mesh may have changed, the selected and
-                      // hovered features may no longer point to valid elements.
-                      selectedFeature.invalidate();
-                      hoveredFeature.invalidate();
-                    }
+					void MeshEdit::computeCentroids( void ) {
+					  Vertex* v = selectedFeature.element->getVertex();
+					  if (v == NULL) { cerr << "Must select a vertex." << endl; return; }
+					  selectedFeature.node->mesh.computeCentroids((v->halfedge()->vertex()));
+					  // Since the mesh may have changed, the selected and
+					  // hovered features may no longer point to valid elements.
+					  selectedFeature.invalidate();
+					  hoveredFeature.invalidate();
+					}
                   } // namespace CMU462
