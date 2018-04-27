@@ -977,12 +977,6 @@ namespace CGL
     float L_max = (4.0 / 3.0) * L;
     float L_min = (4.0 / 5.0) * L;
 
-    std::vector<EdgeIter> toSplit = std::vector<EdgeIter>();
-    std::vector<EdgeIter> toCollapse = std::vector<EdgeIter>();
-    std::vector<EdgeIter> toFlip = std::vector<EdgeIter>();
-
-
-
     for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
       if (e->length() > L_max) {
         mesh.splitEdge(e);
