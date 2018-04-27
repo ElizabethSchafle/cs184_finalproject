@@ -828,7 +828,7 @@ namespace CGL
 
     ///  For each edge, create an edgeRecord and insert it into one global MutablePriorityQueue
 
-      MutablePriorityQueue<EdgeRecord> m_queue;
+    MutablePriorityQueue<EdgeRecord> m_queue;
     for (EdgeIter edge = mesh.edgesBegin(); edge != mesh.edgesEnd(); edge++) {
       EdgeRecord edge_record = EdgeRecord(edge);
       m_queue.insert(edge_record);
@@ -850,48 +850,41 @@ namespace CGL
       VertexIter edge_point2 = cheap_edge->halfedge()->twin()->vertex();
 
       HalfedgeIter h1 = edge_point1->halfedge();
-
-      if (!cheap_edge->isBoundary()) {
-        do
-          {
-            if (h1->edge() != cheap_edge) {
-              m_queue.remove(EdgeRecord(h1->edge()));
-            }
-            h1 = h1->twin()->next();
-          } while (h1 != edge_point1->halfedge());
+      do
+      {
+        if (h1->edge() != cheap_edge) {
+            m_queue.remove(EdgeRecord(h1->edge()));
+        }
+        h1 = h1->twin()->next();
+      } while (h1 != edge_point1->halfedge());
 
 
-          HalfedgeIter h2 = edge_point2->halfedge();
+      HalfedgeIter h2 = edge_point2->halfedge();
 
-          do
-          {
-            if (h2->edge() != cheap_edge) {
-              m_queue.remove(EdgeRecord(h2->edge()));
-            }
-            h2 = h2->twin()->next();
-          } while (h2 != edge_point2->halfedge());
+      do
+      {
+        if (h2->edge() != cheap_edge) {
+            m_queue.remove(EdgeRecord(h2->edge()));
+        }
+        h2 = h2->twin()->next();
+      } while (h2 != edge_point2->halfedge());
 
 
-          /// Collapse the edge
-          VertexIter new_vertex = mesh.collapseEdge(cheap_edge);
+      /// Collapse the edge
+      VertexIter new_vertex = mesh.collapseEdge(cheap_edge);
 
-          ///  Set the quadric of the new vertex to the quadric computed in Step 2.
-          new_vertex->quadric = new_quadric;
+      ///  Set the quadric of the new vertex to the quadric computed in Step 2.
+      new_vertex->quadric = new_quadric;
 
-          ///  Insert any edge touching the new vertex into the queue, creating new edge records for each of them.
-          HalfedgeIter new_vertex_h = new_vertex->halfedge();
+      ///  Insert any edge touching the new vertex into the queue, creating new edge records for each of them.
+      HalfedgeIter new_vertex_h = new_vertex->halfedge();
 
-          do
-          {
-
-            m_queue.insert(EdgeRecord(new_vertex_h->edge()));
-            new_vertex_h = new_vertex_h->twin()->next();
-
-          } while (new_vertex_h != new_vertex->halfedge());
-      }
-
+      do
+      {
+        m_queue.insert(EdgeRecord(new_vertex_h->edge()));
+        new_vertex_h = new_vertex_h->twin()->next();
+      } while (new_vertex_h != new_vertex->halfedge());
     }
-
   }
 
   void Vertex::computeCentroid() {
