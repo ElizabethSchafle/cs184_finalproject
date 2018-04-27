@@ -641,7 +641,7 @@ namespace CGL
                                         std::vector<FaceIter> faces, int deg, VertexIter v,
                                         std::set<HalfedgeIter> incidentHalfEdges);
          VertexIter         collapseEdge(EdgeIter e0); ///< collapse a specified edge
-         VertexIter vertexShift(VertexIter v); ///< shift the position of a vertex
+	 	VertexIter computeCentroids(VertexIter v); ///Sets v->centroid
          bool            canFlip( EdgeIter e);
          double         getAngle(Vector3D a, Vector3D b, Vector3D c);
          int numberOfNeighboringVerts( EdgeIter e0);

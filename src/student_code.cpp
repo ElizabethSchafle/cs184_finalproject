@@ -508,7 +508,7 @@ namespace CGL
 
     // dont collapse boundry edges
     if (e->isBoundary()) {
-      return VertexIter();
+      return e->halfedge()->vertex();
     }
 
     HalfedgeIter h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10;
@@ -524,15 +524,15 @@ namespace CGL
     h9 = h4->twin();
 
     VertexIter v0, v1, v2, v3;
-	  v0 = h0->vertex();
-	  v1 = h3->vertex();
-	  v2 = h7->vertex();
-	  v3 = h9->vertex();
+	v0 = h0->vertex();
+	v1 = h3->vertex();
+	v2 = h7->vertex();
+	v3 = h9->vertex();
 
     EdgeIter e1, e2, e3, e4;
-	  e1 = h5->edge();
-	  e2 = h1->edge();
-	  e3 = h2->edge();
+	e1 = h5->edge();
+	e2 = h1->edge();
+	e3 = h2->edge();
     e4 = h4->edge();
 
    	FaceIter f0, f1;
@@ -771,8 +771,10 @@ namespace CGL
 
   }
 
+
   /** Deletes vertex v and its incident edges. Still needs to be fixed.**/
   void HalfedgeMesh::deleteMeshVertex(VertexIter v) {
+    /*
     HalfedgeIter original = v->halfedge();
     HalfedgeIter curr = original->next();
     std::set<HalfedgeIter> incidentHalfEdges = std::set<HalfedgeIter>();
@@ -809,6 +811,7 @@ namespace CGL
     }
 
     deleteVertex(v);
+    */
   }
 
   void MeshResampler::quadraticSimplify(HalfedgeMesh &mesh) {
@@ -825,7 +828,7 @@ namespace CGL
 
     ///  For each edge, create an edgeRecord and insert it into one global MutablePriorityQueue
 
-      MutablePriorityQueue<EdgeRecord> m_queue;
+    MutablePriorityQueue<EdgeRecord> m_queue;
     for (EdgeIter edge = mesh.edgesBegin(); edge != mesh.edgesEnd(); edge++) {
       EdgeRecord edge_record = EdgeRecord(edge);
       m_queue.insert(edge_record);
@@ -847,11 +850,10 @@ namespace CGL
       VertexIter edge_point2 = cheap_edge->halfedge()->twin()->vertex();
 
       HalfedgeIter h1 = edge_point1->halfedge();
-
       do
       {
         if (h1->edge() != cheap_edge) {
-          m_queue.remove(EdgeRecord(h1->edge()));
+            m_queue.remove(EdgeRecord(h1->edge()));
         }
         h1 = h1->twin()->next();
       } while (h1 != edge_point1->halfedge());
@@ -862,7 +864,7 @@ namespace CGL
       do
       {
         if (h2->edge() != cheap_edge) {
-          m_queue.remove(EdgeRecord(h2->edge()));
+            m_queue.remove(EdgeRecord(h2->edge()));
         }
         h2 = h2->twin()->next();
       } while (h2 != edge_point2->halfedge());
@@ -879,14 +881,10 @@ namespace CGL
 
       do
       {
-
         m_queue.insert(EdgeRecord(new_vertex_h->edge()));
         new_vertex_h = new_vertex_h->twin()->next();
-
       } while (new_vertex_h != new_vertex->halfedge());
-
     }
-
   }
 
   void Vertex::computeCentroid() {
@@ -911,16 +909,21 @@ namespace CGL
     this->centroid = pos;
   }
 
-  VertexIter HalfedgeMesh::vertexShift(VertexIter v) {
+  VertexIter HalfedgeMesh::computeCentroids(VertexIter v){
     v->computeCentroid();
-    v->position = v->centroid;
     return v;
   }
 
   void MeshResampler::centerVertices(HalfedgeMesh& mesh) {
     for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
-      mesh.vertexShift(v);
+      v->computeCentroid();
     }
+	for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
+	  Vector3D diff_vec = v->centroid - v->position;
+	  Vector3D vertex_normal = v->normal();
+	  diff_vec = diff_vec - dot(vertex_normal, diff_vec) * vertex_normal;
+	  v->position = v->position + (4.0/5.0) * diff_vec;
+	}
   }
 
   float MeshResampler::avgEdgeLength(HalfedgeMesh& mesh) {
@@ -966,7 +969,7 @@ namespace CGL
       int newTotalDeg = abs(deg1 - optimalValence - 1) + abs(deg2 - optimalValence - 1)
       + abs(deg3 - optimalValence + 1) + abs(deg4 - optimalValence + 1);
 
-      if (currTotalDeg >= newTotalDeg) {
+      if (currTotalDeg > newTotalDeg) {
         mesh.flipEdge(e);
       }
     }
@@ -977,10 +980,15 @@ namespace CGL
     float L_max = (4.0 / 3.0) * L;
     float L_min = (4.0 / 5.0) * L;
 
-    for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
+    Size n = mesh.nEdges();
+    EdgeIter e = mesh.edgesBegin();
+    for (int i = 0; i < n; i++) {
+      EdgeIter nextEdge = e;
+      nextEdge++;
       if (e->length() > L_max) {
         mesh.splitEdge(e);
       }
+      e = nextEdge;
     }
 
     for(EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
@@ -993,19 +1001,6 @@ namespace CGL
           e = mesh.edgesBegin();
         }
       }
-    }
-
-    int total = 0;
-    int g0 = 0;
-    int l0 = 0;
-
-    for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
-     if(6 > e->halfedge()->vertex()->degree()) {
-       g0 += 1;
-     } else if (6 < e->halfedge()->vertex()->degree()) {
-       l0 += 1;
-     }
-      total += 1;
     }
 
     reduceValence(mesh);
