@@ -31,8 +31,8 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/simplify_and_remesh_cow.png" align="middle" width="400px"/>
-        <img src="images/simplify_peter_2.png" align="middle" width="394px"/>
+        <img src="images/simplify_and_remesh_cow.png" align="middle" width="390px"/>
+        <img src="images/simplify_peter_2.png" align="middle" width="500px"/>
       </td>
     </tr>
   </table>
@@ -58,10 +58,156 @@
 <h4>
   Isotropic remeshing:
 </h4>
+<p>
+  we implemented incremental remeshing to create a more topologically accurate  and regular mesh. We did this through
+  enforcing a more regular edge length, improving mesh valence, and centering vertices. For this algorithm, we referenced
+  this lecture from CMU <a href="http://www.hao-li.com/cs599-ss2015/slides/Lecture09.1.pdf">Slides</a>
+</p>
+<p>
+  The first part of this algorithm, we specified a length L to be the average length of all of the current edges
+  in the mesh. Then, we defined values L_max = 4/3 * L and L_min = 4/5 * L. Then, using L_max, we split all edges longer
+  than l_max, ensuring no edges would be too long, and we collapsed any edges that were less than L_min
+</p>
 
 
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh1.png" align="middle" width="300px"/>
+        <img src="images/remesh2.png" align="middle" width="542px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Enforcing edge lengths resulted in the following change from the original mesh</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh7.png" align="middle" width="500px"/>
+      </td>
+    </tr>
+  </table>
+</div>
 
 
+<p>
+  The next major portion of this algorithm was enforcing optimal valence of the vertices, in other words, we made sure
+  that most of the edges in the mesh had no vertex with more or less than 6 incident edges. To do this, we
+  iterated through all of the edges in the mesh. For each edge, we first collected all of the vertices that would be involved
+  in the flipping of the current edge, A, B, C, and D:
+</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh3.png" align="middle" width="200px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p>
+  Then, using these vertices we used the following formula to compute the total error in the valence of the
+  vertices involved with the edge flip:
+</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/resmesh4.png" align="middle" width="400px"/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <img src="images/remesh5.png" align="middle" width="500px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+  Then, with a slightly edited version of this same formula, we calculated the valence error of these vertices if
+  we were to flip the current edge. If the predicted valence error was less than the current valence error,
+  we flipped the edge.
+</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh6.png" align="middle" width="500px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+  Enforcing an average edge length between average edge length resulted in the following change from the
+  previous result:
+</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh8.png" align="middle" width="500px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+  The final portion of this algorithm was local spring relaxation, or more simply, moving vertices towards
+  the centroid of their respective polygons. We did this by first calculating the centroid for each vertex,
+  using the average position of its incident vertices:
+</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh9.png" align="middle" width="500px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+  Next, after computing the centroid of each vertex in the mesh, we iterated through the vertices of the mesh
+  and using the vertex normal and centroid, created a difference vector with which to transform the current
+  position of the vertex, but we multiply this vector by 4/5 in order to reduce the total distance of position
+  change to preserve topology and reduce errors.
+</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh10.png" align="middle" width="500px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>this final computation resulted in the following improvement to the mesh:</p>
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh11.png" align="middle" width="500px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p>
+  And finally, a comparision of the final result to the original mesh:
+</p>
+
+
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/remesh12.png" align="middle" width="700px"/>
+      </td>
+    </tr>
+  </table>
+</div>
 
 <h3 align="left">Important external links:</h3>
 <p><a href="https://www.youtube.com/watch?v=9MOaKqvEs-o&feature=youtu.be">Video</a></p>
