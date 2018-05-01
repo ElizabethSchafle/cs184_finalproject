@@ -499,15 +499,14 @@ namespace CGL
   }
   
   VertexIter HalfedgeMesh::collapseEdge( EdgeIter e ) {
+    // dont collapse boundry edges
+    if (e->isBoundary()) {
+      return e->halfedge()->vertex();
+    }
 
     // check for the edge case of less than 1 or more than 2 incident verts to the edge
     // if so, dont collapse, return the edges vertex.
     if (numberOfNeighboringVerts(e) != 2) {
-      return e->halfedge()->vertex();
-    }
-
-    // dont collapse boundry edges
-    if (e->isBoundary()) {
       return e->halfedge()->vertex();
     }
 
