@@ -978,18 +978,18 @@ namespace CGL
     float L = avgEdgeLength(mesh);
     float L_max = (4.0 / 3.0) * L;
     float L_min = (4.0 / 5.0) * L;
-	
-	Size n = mesh.nEdges();
-	EdgeIter e = mesh.edgesBegin();
-	for (int i = 0; i < n; i++) {
-	  EdgeIter nextEdge = e;
-	  nextEdge++;
-	  if (e->length() > L_max) {
-		mesh.splitEdge(e);
-	  }
-	  e = nextEdge;
-	}
-	
+
+    Size n = mesh.nEdges();
+    EdgeIter e = mesh.edgesBegin();
+    for (int i = 0; i < n; i++) {
+      EdgeIter nextEdge = e;
+      nextEdge++;
+      if (e->length() > L_max) {
+        mesh.splitEdge(e);
+      }
+      e = nextEdge;
+    }
+
     for(EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
       if(e->length() < L_min) {
         int numEdges = mesh.nEdges();
@@ -1001,7 +1001,7 @@ namespace CGL
         }
       }
     }
-	
+
     reduceValence(mesh);
     centerVertices(mesh);
   }
