@@ -366,7 +366,7 @@ namespace CGL
     e7->isNew = true;
     return e0->halfedge()->vertex();
   }
-  
+
   /*
   Old collapse edge
   VertexIter HalfedgeMesh::collapseEdge(EdgeIter e0)
@@ -497,7 +497,7 @@ namespace CGL
 
     return numNeighbors;
   }
-  
+
   VertexIter HalfedgeMesh::collapseEdge( EdgeIter e ) {
     // dont collapse boundry edges
     if (e->isBoundary()) {
@@ -840,7 +840,7 @@ namespace CGL
     while (mesh.nFaces() > target_triangles && !m_queue.empty()) {
       EdgeRecord cheapest_record = m_queue.top();
       m_queue.pop();
-	  
+
       EdgeIter cheap_edge = cheapest_record.edge;
       Matrix4x4 new_quadric = cheap_edge->halfedge()->vertex()->quadric + cheap_edge->halfedge()->twin()->vertex()->quadric;
 
@@ -960,7 +960,7 @@ namespace CGL
       int deg2 = v1->degree();
       int deg3 = v2->degree();
       int deg4 = v3->degree();
-	  
+
       // using formula from slide 25 of : http://www.hao-li.com/cs599-ss2015/slides/Lecture09.1.pdf
       int currValenceError = abs(deg1 - optimalValence) + abs(deg2 - optimalValence)
                          + abs(deg3 - optimalValence) + abs(deg4 - optimalValence);
