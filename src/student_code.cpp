@@ -975,7 +975,7 @@ namespace CGL
   }
 
   void MeshResampler::incrementalRemeshing(HalfedgeMesh& mesh) {
-    float L = avgEdgeLength(mesh) / 3.0;
+    float L = avgEdgeLength(mesh);
     float L_max = (4.0 / 3.0) * L;
     float L_min = (4.0 / 5.0) * L;
 
