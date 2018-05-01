@@ -918,12 +918,12 @@ namespace CGL
     for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
       v->computeCentroid();
     }
-	for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
-	  Vector3D diff_vec = v->centroid - v->position;
-	  Vector3D vertex_normal = v->normal();
-	  diff_vec = diff_vec - dot(vertex_normal, diff_vec) * vertex_normal;
-	  v->position = v->position + (4.0/5.0) * diff_vec;
-	}
+    for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
+      Vector3D diff_vec = v->centroid - v->position;
+      Vector3D vertex_normal = v->normal();
+      diff_vec = diff_vec - dot(vertex_normal, diff_vec) * vertex_normal;
+      v->position = v->position + (4.0/5.0) * diff_vec;
+    }
   }
 
   float MeshResampler::avgEdgeLength(HalfedgeMesh& mesh) {
@@ -963,20 +963,20 @@ namespace CGL
       int deg4 = v3->degree();
 	  
       // using formula from slide 25 of : http://www.hao-li.com/cs599-ss2015/slides/Lecture09.1.pdf
-      int currTotalDeg = abs(deg1 - optimalValence) + abs(deg2 - optimalValence)
+      int currValenceError = abs(deg1 - optimalValence) + abs(deg2 - optimalValence)
                          + abs(deg3 - optimalValence) + abs(deg4 - optimalValence);
 
-      int newTotalDeg = abs(deg1 - optimalValence - 1) + abs(deg2 - optimalValence - 1)
+      int newValenceError = abs(deg1 - optimalValence - 1) + abs(deg2 - optimalValence - 1)
       + abs(deg3 - optimalValence + 1) + abs(deg4 - optimalValence + 1);
 
-      if (currTotalDeg > newTotalDeg) {
+      if (currValenceError > newValenceError) {
         mesh.flipEdge(e);
       }
     }
   }
 
   void MeshResampler::incrementalRemeshing(HalfedgeMesh& mesh) {
-    float L = avgEdgeLength(mesh);
+    float L = avgEdgeLength(mesh) / 3.0;
     float L_max = (4.0 / 3.0) * L;
     float L_min = (4.0 / 5.0) * L;
 
