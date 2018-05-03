@@ -38,7 +38,7 @@
     <tr>
       <td>
         <img src="images/simplify_and_remesh_cow.png" align="middle" width="390px"/>
-        <img src="images/simplify_peter_2.png" align="middle" width="500px"/>
+        <img src="images/petah.png" align="middle" width="382px"/>
       </td>
     </tr>
   </table>
@@ -62,14 +62,52 @@
   remeshing. What edge collapse does is take a selected edge, and gets rid of it as well as merge the two vertices.
   Our algorithm is as follows: </p>
 <ol>
-  <li>Create a new vertex as the midpoint of </li>
-  <li>Then this</li>
-  <li>Afterwards this</li>
+  <li>Create a new vertex as the midpoint of the endpoints of the edge.</li>
+  <li>Save pointers of half-edges, edges, faces and vertices.</li>
+  <li>Make the half-edges of the vertices point to the new vertex by iterating through all of the half-edges.</li>
+  <li>Delete unwanted faces, halfedges, and edges, and also delete the two vertices at the endpoints of the original
+    edge (making sure nothing is pointing to these objects).</li>
+  <li>Return the new vertex.</li>
 </ol>
-
-
+<p>Below is a basic diagram of out algorithm that we had originally based our implementation off of; however,
+  we had to make some changes due to unforseen segmentation faults and allocation errors:</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/collapse/drawn_1.jpg" align="middle" width="400px"/>
+        <img src="images/collapse/drawn_2.jpg" align="middle" width="400px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Here is our implementation of iterating around the right vertex, and changing all of the half-edge pointers to
+  now point to the midpoint vertex if they were originally pointing to the right vertex. We do the same process to
+  the left vertex (not shown), and do this in order to delete the two vertices without running into
+  further pointer problems.</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/collapse/collapse_code.png" align="middle" width="800px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Shown below is the result of collapsing the highlighted edge on teapot.dae.</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/collapse/teapot_edge_collapse_1.png" align="middle" width="400px"/>
+        <img src="images/collapse/teapot_edge_collapse_2.png" align="middle" width="400px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Check out the gallery for more images of the edge collapse function on various models.</p>
 <h4>
-  Quadric error simplification: (Implemented by Jose Chavez)
+  Quadric Error Simplification: (Implemented by Jose Chavez)
 </h4>
 <p>The key to downsampling a mesh is to reduce the amount of triangles to the extent that the overall shape of the mesh is preserved. If we had a cow in our scene, but far away, we want less triangles but still want a shape of a cow, not a blob. We can downsample using our handy edge collapse method, which helps delete faces and edges. But, we preserve the shape of the mesh by minimizing the error between a downsampled surface resulting from an edge collapse and the original surface. Thus the overall algorithm would be to iteratively collapse edges that minimize this surface error until a target number of triangles is reached. I will elaborate on the idea of a quadric error. To define Quadric Errors, we used the paper by "Surface Simplification Using Quadric Error Metrics" and the developer guide found on CMU's assignment page. </p>
 <p>In order to minimize a resulting vertex's distance to the plane of the original mesh after an edge collapse, we need an equation that gives us the distance to a plane. With this, each face is going to have a derived plane equation that uses its normal $N = (a, b, c)$ and a vertex $p = (x, y, z)$ in the triangle. The plane equation $ax + by + cz + d$ where $d = N \cdot p$ thus gives us a way to represent a plane in a 4D homogenous vector $(a, b, c, d)$. If we have a point $u$ in 4D homogenous space and a 4D plane vector $v$, the distance from $u$ to $v$ is thus $u \cdot v$. Since we only care how far $u$ is from the plane and not whether it is below or above $v$, we want to square this value. This gives us $(u \cdot v)^2 = u^T v v^T u$. The $vv^T$, we will call $K$, is the face quadric. The distance a vertex is in comparison to its neighbors is then the sum of the face quadrics that touch the vertex. Then we can say that the error of collapsing and edge is the sum of the vertex quadrics at both endpoints of the edge. With this, we want to find the position of new point such that it minimizes the distance to the original surface. We find this by solving $Ku = 0$.</p>
@@ -83,7 +121,7 @@
     </tr>
   </table>
 </div>
-<p>Then, for each vertex, we sum all of the surrounding face quadrics. Likewise, each edge is given an error that is the sum of the total quadrics found at both vertices connected by the edge. Since we want to greedily collapse edges with the cheapest error, we make a priority queue that orders edges by this error. In addition, since upsampling scales the number of face by 4, the target number of triangles for downsampling is the number of triangles in the mesh divided by 4. In sum, we</p> 
+<p>Then, for each vertex, we sum all of the surrounding face quadrics. Likewise, each edge is given an error that is the sum of the total quadrics found at both vertices connected by the edge. Since we want to greedily collapse edges with the cheapest error, we make a priority queue that orders edges by this error. In addition, since upsampling scales the number of face by 4, the target number of triangles for downsampling is the number of triangles in the mesh divided by 4. In sum, we</p>
 <ol>
 	<li> pop off the cheapest edge from the queue
 	<li>collapse it
@@ -101,7 +139,7 @@
 </div>
 <p>Be sure to check the gallery for more downsampled meshes.</p>
 <h4>
-  Isotropic remeshing: (Implemented by Elizabeth Schafle)
+  Isotropic Remeshing: (Implemented by Elizabeth Schafle)
 </h4>
 <p>
   We implemented incremental remeshing to create a more topologically accurate and regular mesh. We did this through
@@ -226,7 +264,7 @@
     </tr>
   </table>
 </div>
-<p>this final computation resulted in the following improvement to the mesh:</p>
+<p>This final computation resulted in the following improvement to the mesh:</p>
 
 <div align="middle">
   <table style="width=100%">
@@ -253,33 +291,27 @@
   </table>
 </div>
 
-<h3 align="left">Debugging Horrors</h3>
-<h4>
-  Edge Collapse:
-</h4>
-<p>bad</p>
-<h4>
-  Quadric error simplification:
-</h4>
-<p>bad</p>
-<h4>
-  Isotropic remeshing:
-</h4>
-<p>bad</p>
-
 <h3 align="left">Results Gallery</h3>
 <p><a href="gallery.html">Click here for results gallery</a></p>
 
-<h3 align="left">Important external links</h3>
-<p><a href="https://www.youtube.com/watch?v=9MOaKqvEs-o&feature=youtu.be">Video</a></p>
-<p><a href="https://docs.google.com/document/d/1B1IANrvQMf2fI0fmDcV-nWVe7zsE1OBrSXtUwJJR6Uc/edit?usp=sharing">Project Proposal</a></p>
-<p><a href="https://docs.google.com/presentation/d/1GfDvUWTa2WCMgL4leKjg9gH9aSEkm-Zr_claGWy9D4I/edit?usp=sharing">Slides</a></p>
-<p><a href="milestone.html">Milestone webpage</a></p>
+<h3 align="left">Important External Links</h3>
+<ul>
+  <li><a href="https://docs.google.com/document/d/1B1IANrvQMf2fI0fmDcV-nWVe7zsE1OBrSXtUwJJR6Uc/edit?usp=sharing">Project Proposal</a></li>
+  <li><a href="https://docs.google.com/presentation/d/1GfDvUWTa2WCMgL4leKjg9gH9aSEkm-Zr_claGWy9D4I/edit?usp=sharing">Presentation Slides</a></li>
+  <li><a href="https://www.youtube.com/watch?v=9MOaKqvEs-o&feature=youtu.be">Milestone Video</a></li>
+  <li><a href="milestone.html">Milestone Webpage</a></li>
+</ul>
 
 <h3 align="left">Resources</h3>
-<p><a href="https://www.youtube.com/watch?v=9MOaKqvEs-o&feature=youtu.be">Website 1</a></p>
-<p><a href="https://docs.google.com/document/d/1B1IANrvQMf2fI0fmDcV-nWVe7zsE1OBrSXtUwJJR6Uc/edit?usp=sharing">Website 2</a></p>
-<p><a href="https://docs.google.com/presentation/d/1GfDvUWTa2WCMgL4leKjg9gH9aSEkm-Zr_claGWy9D4I/edit?usp=sharing">Website 3</a></p>
+<ul>
+  <li><a href="https://cs184.eecs.berkeley.edu/article/11">UC Berkeley CS 184 Assignment 2 - MeshEdit</a></li>
+  <li><a href="http://graphics.stanford.edu/courses/cs468-10-fall/LectureSlides/08_Simplification.pdf">Stanford Graphics Lecture on Mesh Simplification</a></li>
+  <li><a href="https://www.ri.cmu.edu/pub_files/pub2/garland_michael_1997_1/garland_michael_1997_1.pdf">Michael Garland Research Paper on Quadric Error Mesh Simplification Algorithms</a></li>
+  <li><a href="https://classes.soe.ucsc.edu/cmps160/Spring05/finalpages/scyiu/">Sai Yiu - Mesh Simplification Using Quadric Error Metrics</a></li>
+  <li><a href="http://462cmu.github.io/asst2_meshedit/">Carnegie Mellon University - A Mini Mesh Editor</a></li>
+  <li><a href="http://graphics.stanford.edu/courses/cs468-12-spring/LectureSlides/13_Remeshing1.pdf">Stanford Graphics Lecture on Remeshing</a></li>
+  <li><a href="http://www.hao-li.com/cs599-ss2015/slides/Lecture09.1.pdf">USC Graphics Lecture on Remeshing</a></li>
+</ul>
 
 
 </body>

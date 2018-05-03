@@ -557,25 +557,27 @@ namespace CGL
     midpoint->halfedge() = h6;
 
 
-    ///Setting the right outside halfedges to have midpoint vertex
+    // Setting the right outside half-edges to have midpoint vertex
     HalfedgeIter right_outside_halfedge = v0->halfedge();
     do
     {
       right_outside_halfedge->setNeighbors(right_outside_halfedge->next(),
                                            right_outside_halfedge->twin(), midpoint,
-                                           right_outside_halfedge->edge(), right_outside_halfedge->face());
+                                           right_outside_halfedge->edge(),
+                                           right_outside_halfedge->face());
       right_outside_halfedge = right_outside_halfedge->twin()->next();
 
     } while (right_outside_halfedge != v0->halfedge());
 
 
-    ///Setting the left outside haldedges to have midpoint vertex
+    // Setting the left outside half-edges to have midpoint vertex
     HalfedgeIter left_outside_halfedge = v1->halfedge();
     do
     {
       left_outside_halfedge->setNeighbors(left_outside_halfedge->next(),
                                           left_outside_halfedge->twin(), midpoint,
-                                          left_outside_halfedge->edge(), left_outside_halfedge->face());
+                                          left_outside_halfedge->edge(),
+                                          left_outside_halfedge->face());
       left_outside_halfedge = left_outside_halfedge->twin()->next();
 
     } while (left_outside_halfedge != v1->halfedge());
