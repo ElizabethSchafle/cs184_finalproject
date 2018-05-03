@@ -15,6 +15,12 @@
     font-family: 'Source Sans Pro', sans-serif;
   }
 </style>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
 <title>Mesh Downsampling and Remeshing</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="icon" href="images/simplify_and_remesh_cow.png">
@@ -50,7 +56,7 @@
 <h3 align="left">Technical Approach</h3>
 
 <h4>
-  Edge Collapse:
+  Edge Collapse: (Implemented by Brian Ho)
 </h4>
 <p>This algorithm is arguably the most cruicial function for the project, utilized in both mesh downsampling and
   remeshing. What edge collapse does is take a selected edge, and gets rid of it as well as merge the two vertices.
@@ -60,14 +66,45 @@
   <li>Then this</li>
   <li>Afterwards this</li>
 </ol>
+
+
 <h4>
-  Quadric error simplification:
+  Quadric error simplification: (Implemented by Jose Chavez)
 </h4>
+<p>The key to downsampling a mesh is to reduce the amount of triangles to the extent that the overall shape of the mesh is preserved. If we had a cow in our scene, but far away, we want less triangles but still want a shape of a cow, not a blob. We can downsample using our handy edge collapse method, which helps delete faces and edges. But, we preserve the shape of the mesh by minimizing the error between a downsampled surface resulting from an edge collapse and the original surface. Thus the overall algorithm would be to iteratively collapse edges that minimize this surface error until a target number of triangles is reached. I will elaborate on the idea of a quadric error. To define Quadric Errors, we used the paper by "Surface Simplification Using Quadric Error Metrics" and the developer guide found on CMU's assignment page. </p>
+<p>In order to minimize a resulting vertex's distance to the plane of the original mesh after an edge collapse, we need an equation that gives us the distance to a plane. With this, each face is going to have a derived plane equation that uses its normal $N = (a, b, c)$ and a vertex $p = (x, y, z)$ in the triangle. The plane equation $ax + by + cz + d$ where $d = N \cdot p$ thus gives us a way to represent a plane in a 4D homogenous vector $(a, b, c, d)$. If we have a point $u$ in 4D homogenous space and a 4D plane vector $v$, the distance from $u$ to $v$ is thus $u \cdot v$. Since we only care how far $u$ is from the plane and not whether it is below or above $v$, we want to square this value. This gives us $(u \cdot v)^2 = u^T v v^T u$. The $vv^T$, we will call $K$, is the face quadric. The distance a vertex is in comparison to its neighbors is then the sum of the face quadrics that touch the vertex. Then we can say that the error of collapsing and edge is the sum of the vertex quadrics at both endpoints of the edge. With this, we want to find the position of new point such that it minimizes the distance to the original surface. We find this by solving $Ku = 0$.</p>
+<p>As the first step towards solving the quadric error for an edge, we first found the quadric for each face.</p>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/face_quadric.png" align="middle" width="800px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Then, for each vertex, we sum all of the surrounding face quadrics. Likewise, each edge is given an error that is the sum of the total quadrics found at both vertices connected by the edge. Since we want to greedily collapse edges with the cheapest error, we make a priority queue that orders edges by this error. In addition, since upsampling scales the number of face by 4, the target number of triangles for downsampling is the number of triangles in the mesh divided by 4. In sum, we</p> 
+<ol>
+	<li> pop off the cheapest edge from the queue
+	<li>collapse it
+	<li> repeat until the queue is empty of the target number of triangles is reached
+</ol>
+<div align="middle">
+  <table style="width=100%">
+    <tr>
+      <td>
+        <img src="images/simplify_teapot_1.png" align="middle" width="400px"/>
+        <img src="images/simplify_teapot_2.png" align="middle" width="400px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+<p>Be sure to check the gallery for more downsampled meshes.</p>
 <h4>
-  Isotropic remeshing:
+  Isotropic remeshing: (Implemented by Elizabeth Schafle)
 </h4>
 <p>
-  we implemented incremental remeshing to create a more topologically accurate  and regular mesh. We did this through
+  We implemented incremental remeshing to create a more topologically accurate and regular mesh. We did this through
   enforcing a more regular edge length, improving mesh valence, and centering vertices. For this algorithm, we referenced
   this lecture from CMU <a href="http://www.hao-li.com/cs599-ss2015/slides/Lecture09.1.pdf">Slides</a>
 </p>
@@ -123,12 +160,12 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/resmesh4.png" align="middle" width="400px"/>
+        <img src="images/resmesh4.png" align="middle" width="600px"/>
       </td>
     </tr>
     <tr>
       <td>
-        <img src="images/remesh5.png" align="middle" width="500px"/>
+        <img src="images/remesh5.png" align="middle" width="700px"/>
       </td>
     </tr>
   </table>
@@ -142,7 +179,7 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/remesh6.png" align="middle" width="500px"/>
+        <img src="images/remesh6.png" align="middle" width="700px"/>
       </td>
     </tr>
   </table>
@@ -155,7 +192,7 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/remesh8.png" align="middle" width="500px"/>
+        <img src="images/remesh8.png" align="middle" width="600px"/>
       </td>
     </tr>
   </table>
@@ -169,7 +206,7 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/remesh9.png" align="middle" width="500px"/>
+        <img src="images/remesh9.png" align="middle" width="600px"/>
       </td>
     </tr>
   </table>
@@ -184,7 +221,7 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/remesh10.png" align="middle" width="500px"/>
+        <img src="images/remesh10.png" align="middle" width="700px"/>
       </td>
     </tr>
   </table>
@@ -195,7 +232,7 @@
   <table style="width=100%">
     <tr>
       <td>
-        <img src="images/remesh11.png" align="middle" width="500px"/>
+        <img src="images/remesh11.png" align="middle" width="600px"/>
       </td>
     </tr>
   </table>
